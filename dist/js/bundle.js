@@ -3,13 +3,11 @@
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<h3>"
-    + alias4(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</h3>\n<p>Created by: "
-    + alias4(((helper = (helper = helpers.author || (depth0 != null ? depth0.author : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"author","hash":{},"data":data}) : helper)))
-    + "</p>\n<li>"
-    + alias4(((helper = (helper = helpers.third_field || (depth0 != null ? depth0.third_field : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"third_field","hash":{},"data":data}) : helper)))
-    + "</li>\n";
+  return "<div class=\"container\">\n  <div class=\"row\">\n  <div class=\"header hla-block left-align\">\n    <ul>\n      <li>\n        <a class=\"hla-logo\" href=\"http://github.com\">\n          <svg class=\"hla-logo-svg\" role=\"img\" version=\"1.1\" viewbox=\"0 0 16 16\"><path d=\"M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59 0.4 0.07 0.55-0.17 0.55-0.38 0-0.19-0.01-0.82-0.01-1.49-2.01 0.37-2.53-0.49-2.69-0.94-0.09-0.23-0.48-0.94-0.82-1.13-0.28-0.15-0.68-0.52-0.01-0.53 0.63-0.01 1.08 0.58 1.23 0.82 0.72 1.21 1.87 0.87 2.33 0.66 0.07-0.52 0.28-0.87 0.51-1.07-1.78-0.2-3.64-0.89-3.64-3.95 0-0.87 0.31-1.59 0.82-2.15-0.08-0.2-0.36-1.02 0.08-2.12 0 0 0.67-0.21 2.2 0.82 0.64-0.18 1.32-0.27 2-0.27 0.68 0 1.36 0.09 2 0.27 1.53-1.04 2.2-0.82 2.2-0.82 0.44 1.1 0.16 1.92 0.08 2.12 0.51 0.56 0.82 1.27 0.82 2.15 0 3.07-1.87 3.75-3.65 3.95 0.29 0.25 0.54 0.73 0.54 1.48 0 1.07-0.01 1.93-0.01 2.2 0 0.21 0.15 0.46 0.55 0.38C13.71 14.53 16 11.53 16 8 16 3.58 12.42 0 8 0z\"></path></svg>\n        </a>\n      </li>\n      <li>\n        <input id=\"hla-search-bar\" type=\"text\" placeholder=\"Search GitHub\">\n      </li>\n      <li><a href=\"\">Pull requests</a></li>\n      <li><a href=\"\">Issues</a></li>\n      <li><a href=\"\">Gist</a></li>\n    </ul>\n  </div>\n  <div class=\"header hra-block right-align\">\n    <ul>\n      <li id=\"hra-create-new\">\n        <div class=\"hra-hover-box\">Create new...</div>\n        <a class=\"hra-dropdown\" href=\"#\">\n          <span class=\"plus-icon\"></span>\n          <span class=\"downarrow\"></span>\n        </a>\n        <ul>\n          <li><a href=\"/new\" class=\"hra-down-item\">New repository</a></li>\n          <li><a href=\"/organizations/new\" class=\"hra-down-item\">New organization</a></li>\n        </ul>\n      </li>\n      <li id=\"hra-profile\">\n        <div class=\"hra-hover-box\">View profile and more</div>\n        <a href=\"#\" class=\"hra-dropdown\">\n          <!-- avatar-icon should be set with user avatar pic on api load -->\n          <span class=\"avatar-icon\"></span>\n          <span class=\"downarrow\"></span>\n        </a>\n        <ul>\n          <li class=\"hra-profile-header\"><span class=\"hra-phbp\">Signed in as:</span><span class=\"hra-phun\">"
+    + alias4(((helper = (helper = helpers.username || (depth0 != null ? depth0.username : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"username","hash":{},"data":data}) : helper)))
+    + "</span></li>\n          <li><a class=\"hra-down-item\" href=\"/"
+    + alias4(((helper = (helper = helpers.username || (depth0 != null ? depth0.username : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"username","hash":{},"data":data}) : helper)))
+    + "\">Your profile</a></li>\n          <li><a class=\"hra-down-item\" href=\"/stars\">Your stars</a></li>\n          <li><a class=\"hra-down-item\" href=\"/explore\">Explore</a></li>\n          <li><a class=\"hra-down-item\" href=\"/integrations\">Integrations</a></li>\n          <li><a class=\"hra-down-item\" href=\"https://help.github.com\">Help</a></li>\n          <li class=\"hra-psettings\"><a class=\"hra-down-item\" href=\"/settings/profile\">Settings</a></li>\n          <li class=\"hra-psignout\"><a class=\"hra-down-item\" href=\"/logout\">Sign out</a></li>\n        </ul>\n      </li>\n    </ul>\n  </div>\n  </div>\n</div>\n";
 },"useData":true});
 },{"handlebars/runtime":45}],2:[function(require,module,exports){
 "use strict";
@@ -17,13 +15,38 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Handlebars = require('handlebars');
 
+//grab the header template for use
 var header = require('./header.handlebars');
-console.log(header);
-
-var context = {'title': 'this is the title', 'author': 'Dale Fenton', 'third_field':'more stuff goes here'};
+//build context obj
+var context = {'username': 'dalevfenton', 'avatar_url': ''};
+//parse context into template
 var html = header(context);
-$('body h1').html(html);
-//update
+//insert into DOM
+$('header').html(html);
+
+$('#hra-profile, #hra-create-new').click(function(){
+  // window.preventDefault();
+  dropDownClick(this);
+});
+function dropDownClick( clicked ){
+  if($(clicked).find('ul').css('display') == 'none'){
+    $(clicked).find('ul').css({'display': 'inline-block'});
+  }else{
+    $(clicked).find('ul').css({'display': 'none'});
+  }
+  clearHover(clicked);
+}
+$('#hra-profile, #hra-create-new').on('mouseover', function(){
+  // window.preventDefault();
+    $(this).find('.hra-hover-box').css({'display': 'block'});
+});
+$('#hra-profile, #hra-create-new').on('mouseout', function(){
+  // window.preventDefault();
+    clearHover(this);
+});
+function clearHover(clicked){
+  $(clicked).find('.hra-hover-box').css({'display': 'none'});
+}
 
 },{"./header.handlebars":1,"handlebars":33,"jquery":46,"underscore":49}],3:[function(require,module,exports){
 (function (process,__filename){
