@@ -32,12 +32,12 @@
         <div class="hra-hover-box">View profile and more</div>
         <a href="#" class="hra-dropdown">
           <!-- avatar-icon should be set with user avatar pic on api load -->
-          <span class="avatar-icon"></span>
+          <span class="avatar-icon"><img src="{{avatar_url}}" alt="" /></span>
           <span class="downarrow"></span>
         </a>
         <ul>
-          <li class="hra-profile-header"><span class="hra-phbp">Signed in as:</span><span class="hra-phun">{{username}}</span></li>
-          <li><a class="hra-down-item" href="/{{username}}">Your profile</a></li>
+          <li class="hra-profile-header"><span class="hra-phbp">Signed in as:</span><span class="hra-phun">{{login}}</span></li>
+          <li><a class="hra-down-item" href="/{{login}}">Your profile</a></li>
           <li><a class="hra-down-item" href="/stars">Your stars</a></li>
           <li><a class="hra-down-item" href="/explore">Explore</a></li>
           <li><a class="hra-down-item" href="/integrations">Integrations</a></li>

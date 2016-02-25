@@ -899,6 +899,9 @@ ul {
   margin: 0;
   padding: 0; }
 
+h1, h2, h3, h4, h5, h6 {
+  margin: 0; }
+
 body {
   margin: 0;
   font-family: sans-serif;
@@ -906,6 +909,8 @@ body {
 
 a {
   text-decoration: none; }
+  a:visited {
+    color: none; }
 
 img, svg {
   max-width: 100%; }
@@ -966,6 +971,26 @@ header {
       float: left;
       width: 25%; } }
 
+#user-info {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px; }
+  @media (min-width: 768px) {
+    #user-info {
+      float: left;
+      width: 25%; } }
+
+#tabs {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px; }
+  @media (min-width: 768px) {
+    #tabs {
+      float: left;
+      width: 75%; } }
+
 .right-align {
   text-align: right; }
   @media (max-width: 768px) {
@@ -992,7 +1017,8 @@ header {
 
 #hra-create-new, #hra-profile {
   content: '';
-  position: relative; }
+  position: relative;
+  z-index: 100; }
   #hra-create-new > ul, #hra-profile > ul {
     display: none;
     position: absolute;
@@ -1081,18 +1107,143 @@ header {
 
 .avatar-icon {
   display: inline-block;
-  width: 30px;
+  width: 20px;
   height: 8px;
   position: relative;
   content: ''; }
-  .avatar-icon::before {
+  .avatar-icon img {
     position: absolute;
-    content: '';
-    background: black;
-    width: 16px;
-    height: 16px;
-    border-radius: 8px;
-    top: -2px;
-    left: 4px; }
+    top: -5px;
+    left: -6px; }
+
+.main-content-row {
+  padding-top: 18px; }
+
+#avatar {
+  border-radius: 8px;
+  overflow: hidden; }
+
+#user-ids, #user-meta, #user-social, #user-orgs {
+  padding: 18px 0;
+  border-bottom: 1px solid #e5e5e5; }
+
+.full-name {
+  font-weight: bold;
+  margin-bottom: 12px; }
+
+.user_handle {
+  color: #656565;
+  font-weight: lighter; }
+
+.icon {
+  padding-left: 25px;
+  position: relative;
+  margin-bottom: 12px; }
+  .icon::before {
+    font-family: FontAwesome;
+    color: #666666;
+    position: absolute;
+    top: 3px;
+    left: 0; }
+
+#work::before {
+  content: '\f0c0'; }
+
+#site::before {
+  content: '\f0c1'; }
+
+#location::before {
+  content: '\f041'; }
+
+#datejoined::before {
+  content: '\f017'; }
+
+.user-social-item {
+  width: 33%;
+  display: inline-block;
+  padding: 0 5px;
+  text-align: center; }
+  .user-social-item:not(:first-of-type) {
+    margin-left: -4px; }
+
+.user-socnum {
+  width: 100%;
+  font-size: 30px;
+  font-weight: bold;
+  color: #4078c0; }
+
+.user-socname {
+  width: 100%;
+  font-size: 10px;
+  color: #666666; }
+
+.orgs-title {
+  margin-bottom: 18px; }
+
+.user-org {
+  width: 20%;
+  display: inline-block;
+  padding: 0 2px; }
+  .user-org img {
+    border-radius: 3px; }
+  .user-org:not(:first-of-type) {
+    margin-left: -4px; }
+
+.tabs-row {
+  border-bottom: 1px solid #e5e5e5; }
+
+.control-tabs-list {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px; }
+  @media (min-width: 768px) {
+    .control-tabs-list {
+      float: left;
+      width: 91.66667%; } }
+
+.control-tab {
+  display: inline-block;
+  width: 20%;
+  font-size: 115%;
+  color: black;
+  padding: 12px 12px 12px 30px;
+  text-align: center;
+  margin: 0; }
+  .control-tab::before {
+    font-size: 115%;
+    top: 11px;
+    left: 10px; }
+
+.active-tab {
+  border-left: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5; }
+
+#contributions::before {
+  content: '\f196'; }
+
+#repositories::before {
+  content: '\f02d'; }
+
+#public::before {
+  content: '\f09e'; }
+
+#profile-edit {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px; }
+  @media (min-width: 768px) {
+    #profile-edit {
+      float: left;
+      width: 8.33333%; } }
+
+.content-tab {
+  height: 250px;
+  display: none; }
+
+.active {
+  display: block; }
 
 /*# sourceMappingURL=app.css.map */

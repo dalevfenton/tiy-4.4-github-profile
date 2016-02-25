@@ -1,0 +1,40 @@
+<div id="avatar">
+  <img src="{{avatar_url}}" alt="">
+</div>
+<div id="user-ids">
+  <h1 class="full-name">{{name}}</h1>
+  <h3 class="user_handle">{{login}}</h3>
+</div>
+<div id="user-meta">
+  <ul>
+    {{#unless hireable}}
+        <li class="icon" id="work">{{user_work}}</li>
+    {{/unless}}
+    {{#if url}}
+      <li class="icon" id="site"><a href="{{user_site}}">{{url}}</a></li>
+    {{/if}}
+    {{#if location}}
+      <li class="icon" id="location">{{location}}</li>
+    {{/if}}
+    {{#if created_at}}
+      <li class="icon" id="datejoined">Joined on {{pretty_date}}</li>
+    {{/if}}
+  </ul>
+</div>
+<div id="user-social">
+  <ul>
+    <li class="user-social-item"><a href="{{following_url}}"><span class="user-socnum">{{followers}}</span><div class="user-socname">Followers</div></a></li>
+    <li class="user-social-item"><a href="{{starred_url}}"><span class="user-socnum">{{public_gists}}</span><div class="user-socname">Starred</div></a></li>
+    <li class="user-social-item"><a href="{{followers_url}}"><span class="user-socnum">{{following}}</span><div class="user-socname">Following</div></a></li>
+  </ul>
+</div>
+{{#if organizations}}
+<div id="user-orgs">
+  <h3 class="orgs-title">Organizations</h3>
+  <ul>
+    {{#each organizations}}
+      <li class="user-org"><a href="{{url}}"><img class="org-img" src="{{avatar_url}}" alt="{{login}}"></a></li>
+    {{/each}}
+  </ul>
+</div>
+{{/if}}

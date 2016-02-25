@@ -1,41 +1,55 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
+module.exports = {'token': '1220aeefe84ebb24bf9d7353dbaace97342b06f9'};
+
+},{}],2:[function(require,module,exports){
+"use strict";
 var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<div class=\"container\">\n  <div class=\"row\">\n  <div class=\"header hla-block left-align\">\n    <ul>\n      <li>\n        <a class=\"hla-logo\" href=\"http://github.com\">\n          <svg class=\"hla-logo-svg\" role=\"img\" version=\"1.1\" viewbox=\"0 0 16 16\"><path d=\"M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59 0.4 0.07 0.55-0.17 0.55-0.38 0-0.19-0.01-0.82-0.01-1.49-2.01 0.37-2.53-0.49-2.69-0.94-0.09-0.23-0.48-0.94-0.82-1.13-0.28-0.15-0.68-0.52-0.01-0.53 0.63-0.01 1.08 0.58 1.23 0.82 0.72 1.21 1.87 0.87 2.33 0.66 0.07-0.52 0.28-0.87 0.51-1.07-1.78-0.2-3.64-0.89-3.64-3.95 0-0.87 0.31-1.59 0.82-2.15-0.08-0.2-0.36-1.02 0.08-2.12 0 0 0.67-0.21 2.2 0.82 0.64-0.18 1.32-0.27 2-0.27 0.68 0 1.36 0.09 2 0.27 1.53-1.04 2.2-0.82 2.2-0.82 0.44 1.1 0.16 1.92 0.08 2.12 0.51 0.56 0.82 1.27 0.82 2.15 0 3.07-1.87 3.75-3.65 3.95 0.29 0.25 0.54 0.73 0.54 1.48 0 1.07-0.01 1.93-0.01 2.2 0 0.21 0.15 0.46 0.55 0.38C13.71 14.53 16 11.53 16 8 16 3.58 12.42 0 8 0z\"></path></svg>\n        </a>\n      </li>\n      <li>\n        <input id=\"hla-search-bar\" type=\"text\" placeholder=\"Search GitHub\">\n      </li>\n      <li><a href=\"\">Pull requests</a></li>\n      <li><a href=\"\">Issues</a></li>\n      <li><a href=\"\">Gist</a></li>\n    </ul>\n  </div>\n  <div class=\"header hra-block right-align\">\n    <ul>\n      <li id=\"hra-create-new\">\n        <div class=\"hra-hover-box\">Create new...</div>\n        <a class=\"hra-dropdown\" href=\"#\">\n          <span class=\"plus-icon\"></span>\n          <span class=\"downarrow\"></span>\n        </a>\n        <ul>\n          <li><a href=\"/new\" class=\"hra-down-item\">New repository</a></li>\n          <li><a href=\"/organizations/new\" class=\"hra-down-item\">New organization</a></li>\n        </ul>\n      </li>\n      <li id=\"hra-profile\">\n        <div class=\"hra-hover-box\">View profile and more</div>\n        <a href=\"#\" class=\"hra-dropdown\">\n          <!-- avatar-icon should be set with user avatar pic on api load -->\n          <span class=\"avatar-icon\"></span>\n          <span class=\"downarrow\"></span>\n        </a>\n        <ul>\n          <li class=\"hra-profile-header\"><span class=\"hra-phbp\">Signed in as:</span><span class=\"hra-phun\">"
-    + alias4(((helper = (helper = helpers.username || (depth0 != null ? depth0.username : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"username","hash":{},"data":data}) : helper)))
+  return "<div class=\"container\">\n  <div class=\"row\">\n  <div class=\"header hla-block left-align\">\n    <ul>\n      <li>\n        <a class=\"hla-logo\" href=\"http://github.com\">\n          <svg class=\"hla-logo-svg\" role=\"img\" version=\"1.1\" viewbox=\"0 0 16 16\"><path d=\"M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59 0.4 0.07 0.55-0.17 0.55-0.38 0-0.19-0.01-0.82-0.01-1.49-2.01 0.37-2.53-0.49-2.69-0.94-0.09-0.23-0.48-0.94-0.82-1.13-0.28-0.15-0.68-0.52-0.01-0.53 0.63-0.01 1.08 0.58 1.23 0.82 0.72 1.21 1.87 0.87 2.33 0.66 0.07-0.52 0.28-0.87 0.51-1.07-1.78-0.2-3.64-0.89-3.64-3.95 0-0.87 0.31-1.59 0.82-2.15-0.08-0.2-0.36-1.02 0.08-2.12 0 0 0.67-0.21 2.2 0.82 0.64-0.18 1.32-0.27 2-0.27 0.68 0 1.36 0.09 2 0.27 1.53-1.04 2.2-0.82 2.2-0.82 0.44 1.1 0.16 1.92 0.08 2.12 0.51 0.56 0.82 1.27 0.82 2.15 0 3.07-1.87 3.75-3.65 3.95 0.29 0.25 0.54 0.73 0.54 1.48 0 1.07-0.01 1.93-0.01 2.2 0 0.21 0.15 0.46 0.55 0.38C13.71 14.53 16 11.53 16 8 16 3.58 12.42 0 8 0z\"></path></svg>\n        </a>\n      </li>\n      <li>\n        <input id=\"hla-search-bar\" type=\"text\" placeholder=\"Search GitHub\">\n      </li>\n      <li><a href=\"\">Pull requests</a></li>\n      <li><a href=\"\">Issues</a></li>\n      <li><a href=\"\">Gist</a></li>\n    </ul>\n  </div>\n  <div class=\"header hra-block right-align\">\n    <ul>\n      <li id=\"hra-create-new\">\n        <div class=\"hra-hover-box\">Create new...</div>\n        <a class=\"hra-dropdown\" href=\"#\">\n          <span class=\"plus-icon\"></span>\n          <span class=\"downarrow\"></span>\n        </a>\n        <ul>\n          <li><a href=\"/new\" class=\"hra-down-item\">New repository</a></li>\n          <li><a href=\"/organizations/new\" class=\"hra-down-item\">New organization</a></li>\n        </ul>\n      </li>\n      <li id=\"hra-profile\">\n        <div class=\"hra-hover-box\">View profile and more</div>\n        <a href=\"#\" class=\"hra-dropdown\">\n          <!-- avatar-icon should be set with user avatar pic on api load -->\n          <span class=\"avatar-icon\"><img src=\""
+    + alias4(((helper = (helper = helpers.avatar_url || (depth0 != null ? depth0.avatar_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"avatar_url","hash":{},"data":data}) : helper)))
+    + "\" alt=\"\" /></span>\n          <span class=\"downarrow\"></span>\n        </a>\n        <ul>\n          <li class=\"hra-profile-header\"><span class=\"hra-phbp\">Signed in as:</span><span class=\"hra-phun\">"
+    + alias4(((helper = (helper = helpers.login || (depth0 != null ? depth0.login : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"login","hash":{},"data":data}) : helper)))
     + "</span></li>\n          <li><a class=\"hra-down-item\" href=\"/"
-    + alias4(((helper = (helper = helpers.username || (depth0 != null ? depth0.username : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"username","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.login || (depth0 != null ? depth0.login : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"login","hash":{},"data":data}) : helper)))
     + "\">Your profile</a></li>\n          <li><a class=\"hra-down-item\" href=\"/stars\">Your stars</a></li>\n          <li><a class=\"hra-down-item\" href=\"/explore\">Explore</a></li>\n          <li><a class=\"hra-down-item\" href=\"/integrations\">Integrations</a></li>\n          <li><a class=\"hra-down-item\" href=\"https://help.github.com\">Help</a></li>\n          <li class=\"hra-psettings\"><a class=\"hra-down-item\" href=\"/settings/profile\">Settings</a></li>\n          <li class=\"hra-psignout\"><a class=\"hra-down-item\" href=\"/logout\">Sign out</a></li>\n        </ul>\n      </li>\n    </ul>\n  </div>\n  </div>\n</div>\n";
 },"useData":true});
-},{"handlebars/runtime":45}],2:[function(require,module,exports){
+},{"handlebars/runtime":47}],3:[function(require,module,exports){
 "use strict";
 var $ = require('jquery');
 var _ = require('underscore');
 var Handlebars = require('handlebars');
-
+var githubtoken = require('./githubtoken.js').token;
+var orgs, user_info;
+if(typeof(githubtoken) !== "undefined"){
+  $.ajaxSetup({
+    headers: {
+      'Authorization': 'token ' + githubtoken,
+    }
+  });
+}
+//------------------------------------------------------------------------------
+//                        TEMPLATE IMPORTS
+//------------------------------------------------------------------------------
 //grab the header template for use
 var header = require('./header.handlebars');
+var sidebar = require('./sidebar.handlebars');
 //build context obj
-var context = {'username': 'dalevfenton', 'avatar_url': ''};
-//parse context into template
-var html = header(context);
-//insert into DOM
-$('header').html(html);
 
+//------------------------------------------------------------------------------
+//                        BUILD CONTEXT OBJECTS
+//------------------------------------------------------------------------------
+
+
+
+
+//------------------------------------------------------------------------------
+//                        INTERACTIVE EVENT HANDLERS
+//------------------------------------------------------------------------------
 $('#hra-profile, #hra-create-new').click(function(){
-  // window.preventDefault();
   dropDownClick(this);
 });
-function dropDownClick( clicked ){
-  if($(clicked).find('ul').css('display') == 'none'){
-    $(clicked).find('ul').css({'display': 'inline-block'});
-  }else{
-    $(clicked).find('ul').css({'display': 'none'});
-  }
-  clearHover(clicked);
-}
 $('#hra-profile, #hra-create-new').on('mouseover', function(){
   // window.preventDefault();
     $(this).find('.hra-hover-box').css({'display': 'block'});
@@ -44,11 +58,137 @@ $('#hra-profile, #hra-create-new').on('mouseout', function(){
   // window.preventDefault();
     clearHover(this);
 });
+//------------------------------------------------------------------------------
+//                  EVENT HANDLER CALLBACK FUNCTIONS
+//------------------------------------------------------------------------------
 function clearHover(clicked){
   $(clicked).find('.hra-hover-box').css({'display': 'none'});
 }
+function dropDownClick( clicked ){
+  if($(clicked).find('ul').css('display') == 'none'){
+    $(clicked).find('ul').css({'display': 'inline-block'});
+  }else{
+    $(clicked).find('ul').css({'display': 'none'});
+  }
+  clearHover(clicked);
+}
+//------------------------------------------------------------------------------
+//                  AJAX CALL
+//------------------------------------------------------------------------------
+var url = 'https://api.github.com/users/dalevfenton';
+$.ajax(url).done(function(data){
+  var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
+  var date = new Date(data.created_at);
+  data.pretty_date = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+  user_info = data;
+  drawHeader(user_info);
+  var orgsUrl = 'https://api.github.com/user/orgs';
+  $.ajax(orgsUrl).done(function(data){
+    user_info.organizations = data;
+    console.log(user_info);
+    drawSidebar(user_info);
+  });
+});
+//------------------------------------------------------------------------------
+//                 TEMPLATE FUNCTIONS CALLED ON AJAX COMPLETION
+//------------------------------------------------------------------------------
+function drawHeader(data){
+  var headerHTML = header(data);
+  $('header').html(headerHTML);
+  $('#hra-profile, #hra-create-new').click(function(){
+    dropDownClick(this);
+  });
+  $('#hra-profile, #hra-create-new').on('mouseover', function(){
+    // window.preventDefault();
+      $(this).find('.hra-hover-box').css({'display': 'block'});
+  });
+  $('#hra-profile, #hra-create-new').on('mouseout', function(){
+    // window.preventDefault();
+      clearHover(this);
+  });
+}
 
-},{"./header.handlebars":1,"handlebars":33,"jquery":46,"underscore":49}],3:[function(require,module,exports){
+function drawSidebar(data){
+  //parse context into template
+  var sidebarHTML = sidebar(data);
+  //insert into DOM
+  $('#user-info').html(sidebarHTML);
+}
+
+},{"./githubtoken.js":1,"./header.handlebars":2,"./sidebar.handlebars":4,"handlebars":35,"jquery":48,"underscore":51}],4:[function(require,module,exports){
+"use strict";
+var templater = require("handlebars/runtime")["default"].template;module.exports = templater({"1":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "        <li class=\"icon\" id=\"work\">"
+    + container.escapeExpression(((helper = (helper = helpers.user_work || (depth0 != null ? depth0.user_work : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"user_work","hash":{},"data":data}) : helper)))
+    + "</li>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "      <li class=\"icon\" id=\"site\"><a href=\""
+    + alias4(((helper = (helper = helpers.user_site || (depth0 != null ? depth0.user_site : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"user_site","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"url","hash":{},"data":data}) : helper)))
+    + "</a></li>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "      <li class=\"icon\" id=\"location\">"
+    + container.escapeExpression(((helper = (helper = helpers.location || (depth0 != null ? depth0.location : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"location","hash":{},"data":data}) : helper)))
+    + "</li>\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    var helper;
+
+  return "      <li class=\"icon\" id=\"datejoined\">Joined on "
+    + container.escapeExpression(((helper = (helper = helpers.pretty_date || (depth0 != null ? depth0.pretty_date : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"pretty_date","hash":{},"data":data}) : helper)))
+    + "</li>\n";
+},"9":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<div id=\"user-orgs\">\n  <h3 class=\"orgs-title\">Organizations</h3>\n  <ul>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.organizations : depth0),{"name":"each","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "  </ul>\n</div>\n";
+},"10":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "      <li class=\"user-org\"><a href=\""
+    + alias4(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"url","hash":{},"data":data}) : helper)))
+    + "\"><img class=\"org-img\" src=\""
+    + alias4(((helper = (helper = helpers.avatar_url || (depth0 != null ? depth0.avatar_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"avatar_url","hash":{},"data":data}) : helper)))
+    + "\" alt=\""
+    + alias4(((helper = (helper = helpers.login || (depth0 != null ? depth0.login : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"login","hash":{},"data":data}) : helper)))
+    + "\"></a></li>\n";
+},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div id=\"avatar\">\n  <img src=\""
+    + alias4(((helper = (helper = helpers.avatar_url || (depth0 != null ? depth0.avatar_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"avatar_url","hash":{},"data":data}) : helper)))
+    + "\" alt=\"\">\n</div>\n<div id=\"user-ids\">\n  <h1 class=\"full-name\">"
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "</h1>\n  <h3 class=\"user_handle\">"
+    + alias4(((helper = (helper = helpers.login || (depth0 != null ? depth0.login : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"login","hash":{},"data":data}) : helper)))
+    + "</h3>\n</div>\n<div id=\"user-meta\">\n  <ul>\n"
+    + ((stack1 = helpers.unless.call(alias1,(depth0 != null ? depth0.hireable : depth0),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.url : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.location : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.created_at : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "  </ul>\n</div>\n<div id=\"user-social\">\n  <ul>\n    <li class=\"user-social-item\"><a href=\""
+    + alias4(((helper = (helper = helpers.following_url || (depth0 != null ? depth0.following_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"following_url","hash":{},"data":data}) : helper)))
+    + "\"><span class=\"user-socnum\">"
+    + alias4(((helper = (helper = helpers.followers || (depth0 != null ? depth0.followers : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"followers","hash":{},"data":data}) : helper)))
+    + "</span><div class=\"user-socname\">Followers</div></a></li>\n    <li class=\"user-social-item\"><a href=\""
+    + alias4(((helper = (helper = helpers.starred_url || (depth0 != null ? depth0.starred_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starred_url","hash":{},"data":data}) : helper)))
+    + "\"><span class=\"user-socnum\">"
+    + alias4(((helper = (helper = helpers.public_gists || (depth0 != null ? depth0.public_gists : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"public_gists","hash":{},"data":data}) : helper)))
+    + "</span><div class=\"user-socname\">Starred</div></a></li>\n    <li class=\"user-social-item\"><a href=\""
+    + alias4(((helper = (helper = helpers.followers_url || (depth0 != null ? depth0.followers_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"followers_url","hash":{},"data":data}) : helper)))
+    + "\"><span class=\"user-socnum\">"
+    + alias4(((helper = (helper = helpers.following || (depth0 != null ? depth0.following : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"following","hash":{},"data":data}) : helper)))
+    + "</span><div class=\"user-socname\">Following</div></a></li>\n  </ul>\n</div>\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.organizations : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+},"useData":true});
+},{"handlebars/runtime":47}],5:[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 1.0.0 Copyright (c) 2011-2015, The Dojo Foundation All Rights Reserved.
@@ -353,7 +493,7 @@ function amdefine(module, requireFn) {
 module.exports = amdefine;
 
 }).call(this,require('_process'),"/node_modules/amdefine/amdefine.js")
-},{"_process":48,"path":47}],4:[function(require,module,exports){
+},{"_process":50,"path":49}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -420,7 +560,7 @@ exports['default'] = inst;
 module.exports = exports['default'];
 
 
-},{"./handlebars.runtime":5,"./handlebars/compiler/ast":7,"./handlebars/compiler/base":8,"./handlebars/compiler/compiler":10,"./handlebars/compiler/javascript-compiler":12,"./handlebars/compiler/visitor":15,"./handlebars/no-conflict":29}],5:[function(require,module,exports){
+},{"./handlebars.runtime":7,"./handlebars/compiler/ast":9,"./handlebars/compiler/base":10,"./handlebars/compiler/compiler":12,"./handlebars/compiler/javascript-compiler":14,"./handlebars/compiler/visitor":17,"./handlebars/no-conflict":31}],7:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -488,7 +628,7 @@ exports['default'] = inst;
 module.exports = exports['default'];
 
 
-},{"./handlebars/base":6,"./handlebars/exception":19,"./handlebars/no-conflict":29,"./handlebars/runtime":30,"./handlebars/safe-string":31,"./handlebars/utils":32}],6:[function(require,module,exports){
+},{"./handlebars/base":8,"./handlebars/exception":21,"./handlebars/no-conflict":31,"./handlebars/runtime":32,"./handlebars/safe-string":33,"./handlebars/utils":34}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -594,7 +734,7 @@ exports.createFrame = _utils.createFrame;
 exports.logger = _logger2['default'];
 
 
-},{"./decorators":17,"./exception":19,"./helpers":20,"./logger":28,"./utils":32}],7:[function(require,module,exports){
+},{"./decorators":19,"./exception":21,"./helpers":22,"./logger":30,"./utils":34}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -627,7 +767,7 @@ exports['default'] = AST;
 module.exports = exports['default'];
 
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -677,7 +817,7 @@ function parse(input, options) {
 }
 
 
-},{"../utils":32,"./helpers":11,"./parser":13,"./whitespace-control":16}],9:[function(require,module,exports){
+},{"../utils":34,"./helpers":13,"./parser":15,"./whitespace-control":18}],11:[function(require,module,exports){
 /* global define */
 'use strict';
 
@@ -845,7 +985,7 @@ exports['default'] = CodeGen;
 module.exports = exports['default'];
 
 
-},{"../utils":32,"source-map":34}],10:[function(require,module,exports){
+},{"../utils":34,"source-map":36}],12:[function(require,module,exports){
 /* eslint-disable new-cap */
 
 'use strict';
@@ -1419,7 +1559,7 @@ function transformLiteralToPath(sexpr) {
 }
 
 
-},{"../exception":19,"../utils":32,"./ast":7}],11:[function(require,module,exports){
+},{"../exception":21,"../utils":34,"./ast":9}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1651,7 +1791,7 @@ function preparePartialBlock(open, program, close, locInfo) {
 }
 
 
-},{"../exception":19}],12:[function(require,module,exports){
+},{"../exception":21}],14:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2779,7 +2919,7 @@ exports['default'] = JavaScriptCompiler;
 module.exports = exports['default'];
 
 
-},{"../base":6,"../exception":19,"../utils":32,"./code-gen":9}],13:[function(require,module,exports){
+},{"../base":8,"../exception":21,"../utils":34,"./code-gen":11}],15:[function(require,module,exports){
 /* istanbul ignore next */
 /* Jison generated parser */
 "use strict";
@@ -3519,7 +3659,7 @@ var handlebars = (function () {
 exports['default'] = handlebars;
 
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /* eslint-disable new-cap */
 'use strict';
 
@@ -3707,7 +3847,7 @@ PrintVisitor.prototype.HashPair = function (pair) {
 /* eslint-enable new-cap */
 
 
-},{"./visitor":15}],15:[function(require,module,exports){
+},{"./visitor":17}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3849,7 +3989,7 @@ exports['default'] = Visitor;
 module.exports = exports['default'];
 
 
-},{"../exception":19}],16:[function(require,module,exports){
+},{"../exception":21}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4072,7 +4212,7 @@ exports['default'] = WhitespaceControl;
 module.exports = exports['default'];
 
 
-},{"./visitor":15}],17:[function(require,module,exports){
+},{"./visitor":17}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4090,7 +4230,7 @@ function registerDefaultDecorators(instance) {
 }
 
 
-},{"./decorators/inline":18}],18:[function(require,module,exports){
+},{"./decorators/inline":20}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4121,7 +4261,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":32}],19:[function(require,module,exports){
+},{"../utils":34}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4163,7 +4303,7 @@ exports['default'] = Exception;
 module.exports = exports['default'];
 
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4211,7 +4351,7 @@ function registerDefaultHelpers(instance) {
 }
 
 
-},{"./helpers/block-helper-missing":21,"./helpers/each":22,"./helpers/helper-missing":23,"./helpers/if":24,"./helpers/log":25,"./helpers/lookup":26,"./helpers/with":27}],21:[function(require,module,exports){
+},{"./helpers/block-helper-missing":23,"./helpers/each":24,"./helpers/helper-missing":25,"./helpers/if":26,"./helpers/log":27,"./helpers/lookup":28,"./helpers/with":29}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4252,7 +4392,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":32}],22:[function(require,module,exports){
+},{"../utils":34}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4348,7 +4488,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":19,"../utils":32}],23:[function(require,module,exports){
+},{"../exception":21,"../utils":34}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4375,7 +4515,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":19}],24:[function(require,module,exports){
+},{"../exception":21}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4406,7 +4546,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":32}],25:[function(require,module,exports){
+},{"../utils":34}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4434,7 +4574,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4448,7 +4588,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4483,7 +4623,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":32}],28:[function(require,module,exports){
+},{"../utils":34}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4532,7 +4672,7 @@ exports['default'] = logger;
 module.exports = exports['default'];
 
 
-},{"./utils":32}],29:[function(require,module,exports){
+},{"./utils":34}],31:[function(require,module,exports){
 (function (global){
 /* global window */
 'use strict';
@@ -4556,7 +4696,7 @@ module.exports = exports['default'];
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4850,7 +4990,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 }
 
 
-},{"./base":6,"./exception":19,"./utils":32}],31:[function(require,module,exports){
+},{"./base":8,"./exception":21,"./utils":34}],33:[function(require,module,exports){
 // Build out our basic SafeString type
 'use strict';
 
@@ -4867,7 +5007,7 @@ exports['default'] = SafeString;
 module.exports = exports['default'];
 
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4993,7 +5133,7 @@ function appendContextPath(contextPath, id) {
 }
 
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 // USAGE:
 // var handlebars = require('handlebars');
 /* eslint-disable no-var */
@@ -5020,7 +5160,7 @@ if (typeof require !== 'undefined' && require.extensions) {
   require.extensions['.hbs'] = extension;
 }
 
-},{"../dist/cjs/handlebars":4,"../dist/cjs/handlebars/compiler/printer":14,"fs":50}],34:[function(require,module,exports){
+},{"../dist/cjs/handlebars":6,"../dist/cjs/handlebars/compiler/printer":16,"fs":52}],36:[function(require,module,exports){
 /*
  * Copyright 2009-2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE.txt or:
@@ -5030,7 +5170,7 @@ exports.SourceMapGenerator = require('./source-map/source-map-generator').Source
 exports.SourceMapConsumer = require('./source-map/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./source-map/source-node').SourceNode;
 
-},{"./source-map/source-map-consumer":41,"./source-map/source-map-generator":42,"./source-map/source-node":43}],35:[function(require,module,exports){
+},{"./source-map/source-map-consumer":43,"./source-map/source-map-generator":44,"./source-map/source-node":45}],37:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5139,7 +5279,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":44,"amdefine":3}],36:[function(require,module,exports){
+},{"./util":46,"amdefine":5}],38:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5287,7 +5427,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./base64":37,"amdefine":3}],37:[function(require,module,exports){
+},{"./base64":39,"amdefine":5}],39:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5362,7 +5502,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":3}],38:[function(require,module,exports){
+},{"amdefine":5}],40:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5481,7 +5621,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":3}],39:[function(require,module,exports){
+},{"amdefine":5}],41:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2014 Mozilla Foundation and contributors
@@ -5569,7 +5709,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":44,"amdefine":3}],40:[function(require,module,exports){
+},{"./util":46,"amdefine":5}],42:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -5691,7 +5831,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":3}],41:[function(require,module,exports){
+},{"amdefine":5}],43:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -6770,7 +6910,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":35,"./base64-vlq":36,"./binary-search":38,"./quick-sort":40,"./util":44,"amdefine":3}],42:[function(require,module,exports){
+},{"./array-set":37,"./base64-vlq":38,"./binary-search":40,"./quick-sort":42,"./util":46,"amdefine":5}],44:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -7171,7 +7311,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":35,"./base64-vlq":36,"./mapping-list":39,"./util":44,"amdefine":3}],43:[function(require,module,exports){
+},{"./array-set":37,"./base64-vlq":38,"./mapping-list":41,"./util":46,"amdefine":5}],45:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -7587,7 +7727,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./source-map-generator":42,"./util":44,"amdefine":3}],44:[function(require,module,exports){
+},{"./source-map-generator":44,"./util":46,"amdefine":5}],46:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -7959,12 +8099,12 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":3}],45:[function(require,module,exports){
+},{"amdefine":5}],47:[function(require,module,exports){
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
 module.exports = require('./dist/cjs/handlebars.runtime')['default'];
 
-},{"./dist/cjs/handlebars.runtime":5}],46:[function(require,module,exports){
+},{"./dist/cjs/handlebars.runtime":7}],48:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.1
  * http://jquery.com/
@@ -17797,7 +17937,7 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -18025,7 +18165,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":48}],48:[function(require,module,exports){
+},{"_process":50}],50:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -18118,7 +18258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],49:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -19668,6 +19808,6 @@ process.umask = function() { return 0; };
   }
 }.call(this));
 
-},{}],50:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 
-},{}]},{},[2]);
+},{}]},{},[3]);

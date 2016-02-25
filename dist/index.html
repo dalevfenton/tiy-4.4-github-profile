@@ -9,8 +9,28 @@
   </head>
   <body>
     <header>
-      
+      <!-- this is filled by the template laid out in header.handlebars -->
     </header>
+    <div class="container">
+      <div class="row main-content-row">
+      <aside id="user-info">
+        <!-- aside template located at sidebar.handlebars -->
+      </aside>
+      <section id="tabs">
+        <div class="row tabs-row">
+          <ul class="control-tabs-list">
+            <li class="icon control-tab" id="contributions">Contributions</li>
+            <li class="icon control-tab active-tab" id="repositories">Repositories</li>
+            <li class="icon control-tab" id="public">Public activity</li>
+          </ul>
+          <button type="button" id="profile-edit">Edit profile</button>
+        </div>
+        <div class="content-tab" id="contributions-tab"></div>
+        <div class="content-tab active" id="repositories-tab"></div>
+        <div class="content-tab" id="public-tab"></div>
+      </section>
+      </div>
+    </div>
     <script src="js/bundle.js"></script>
   </body>
 </html>
