@@ -1,6 +1,10 @@
+//------------------------------------------------------------------------------
+//                        HANDLEBAR HELPERS
+//------------------------------------------------------------------------------
 var $ = require('jquery');
 var _ = require('underscore');
-var Handlebars = require('handlebars');
+var Handlebars = require('handlebars/runtime')['default'];
+                  // require('./helpers.js');
 var cache = require('./cached-data.js');
 var githubtoken = cache.token;
 var userReturn = cache.userReturn;
@@ -8,6 +12,12 @@ var reposReturned = cache.repos;
 var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
 var orgs, user_info;
 
+Handlebars.registerHelper('times-ten', function( object ) {
+  return new Handlebars.SafeString( object * 1.25 );
+});
+Handlebars.registerHelper('percent-offset', function(object) {
+  return new Handlebars.SafeString( object / 52 * 100 );
+});
 //setup headers to do authentication with github using personal token
 if(typeof(githubtoken) !== "undefined"){
   $.ajaxSetup({
@@ -16,6 +26,8 @@ if(typeof(githubtoken) !== "undefined"){
     }
   });
 }
+
+
 
 //flag that can be set to api to use live api calls or cache to use cached data
 //so that our usage and refresh time are low
@@ -79,7 +91,6 @@ if(source==='api'){
         // console.log(user_info);
         drawSidebar(user_info);
         var repoUrl = 'https://api.github.com/users/dalevfenton/repos';
-        var repoUrlFull = 'https://api.github.com/repos/dalevfenton/generator-tiy-gvl-feb-2016';
         $.ajax(repoUrl).done(function(data){
           var index = 0;
           // console.log(data);
@@ -165,6 +176,7 @@ function drawRepos(data){
   });
   var repoHTML = repos({'repos': data});
   $('#repo-listings').html(repoHTML);
+  drawBars(data);
 }
 function prettyDate(data){
   var date = new Date(data.created_at);
@@ -212,4 +224,11 @@ function timeSince(date) {
         intervalType += 's';
     }
     return [interval, intervalType, seconds];
+}
+function drawBars(repos){
+
+  var allBars = '';
+  repos.forEach(function(item){
+
+  });
 }

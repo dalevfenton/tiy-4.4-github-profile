@@ -5751,7 +5751,8 @@ header {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
-  padding-right: 15px; }
+  padding-right: 15px;
+  position: relative; }
   @media (min-width: 992px) {
     .repo-info-left {
       float: left;
@@ -5787,5 +5788,30 @@ header {
 
 .repo-fork-holder, .repo-star-holder {
   margin-left: 8px; }
+
+.repo-graph-holder {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -20px;
+  z-index: -1; }
+  .repo-graph-holder .bars {
+    position: absolute;
+    bottom: 0;
+    width: 100%; }
+
+.bar {
+  display: inline-block;
+  width: 1.92%;
+  position: absolute;
+  bottom: 0; }
+  .bar:not(:first-of-type) {
+    margin-left: -4px; }
+
+.bar-loop-0 {
+  background-color: #dedede; }
+
+.bar-loop-1 {
+  background-color: #f8f8f8; }
 
 /*# sourceMappingURL=app.css.map */
