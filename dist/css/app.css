@@ -5727,6 +5727,9 @@ header {
 .star-icon::before {
   content: '\f005'; }
 
+#repo-listings {
+  margin-bottom: 20px; }
+
 .repo-listing {
   position: relative;
   float: left;
@@ -5813,5 +5816,42 @@ header {
 
 .bar-loop-1 {
   background-color: #f8f8f8; }
+
+.footer-row {
+  border-top: 1px solid #e5e5e5;
+  padding: 20px 0; }
+
+.footer-left, .footer-right {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px; }
+  @media (min-width: 992px) {
+    .footer-left, .footer-right {
+      float: left;
+      width: 41.66667%; } }
+
+.footer-center {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: center; }
+  @media (min-width: 992px) {
+    .footer-center {
+      float: left;
+      width: 16.66667%; } }
+  .footer-center a {
+    color: #cacaca; }
+    .footer-center a:hover {
+      color: #bbbbbb; }
+
+.footer-item {
+  display: inline-block;
+  padding: 8px;
+  font-size: 12px; }
+
+.footer-right {
+  text-align: right; }
 
 /*# sourceMappingURL=app.css.map */
