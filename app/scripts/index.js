@@ -1,13 +1,14 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var Handlebars = require('handlebars');
-var githubtoken = require('./githubtoken.js').token;
-var userReturn = require('./githubtoken.js').userReturn;
-var reposReturned = require('./githubtoken.js').repos;
-var source = 'cache';
+var cache = require('./cached-data.js');
+var githubtoken = cache.token;
+var userReturn = cache.userReturn;
+var reposReturned = cache.repos;
 var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
-
 var orgs, user_info;
+
+//setup headers to do authentication with github using personal token
 if(typeof(githubtoken) !== "undefined"){
   $.ajaxSetup({
     headers: {
@@ -15,6 +16,10 @@ if(typeof(githubtoken) !== "undefined"){
     }
   });
 }
+
+//flag that can be set to api to use live api calls or cache to use cached data
+//so that our usage and refresh time are low
+var source = 'cache';
 //------------------------------------------------------------------------------
 //                        TEMPLATE IMPORTS
 //------------------------------------------------------------------------------
