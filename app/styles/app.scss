@@ -20,10 +20,11 @@ ul{
 h1, h2, h3, h4, h5, h6{
   margin: 0;
 }
+button{
+  font-weight: bold;
+}
 body{
   margin: 0;
-  font-family: sans-serif;
-  font-size: 80%;
 }
 a {
   text-decoration: none;
@@ -41,7 +42,10 @@ svg {
   max-width: 1000px;
   margin: 0 auto;
 }
-
+input{
+  outline: none;
+  border: 1px solid $border-lt-gray;
+}
 header{
   background: rgba(245, 245, 245, 1);
   border-bottom: 1px solid $border-lt-gray;
@@ -294,36 +298,88 @@ header{
   border-bottom: 1px solid $border-lt-gray;
 }
 .control-tabs-list{
-  @include make-sm-column(11);
+  position: relative;
+  display: inline-block;
+  width: 100%;
 }
 .control-tab{
   display: inline-block;
-  width: 20%;
-  font-size: 115%;
+  font-size: 100%;
   color: black;
   padding: 12px 12px 12px 30px;
   text-align: center;
   margin: 0;
+  &:not(:last-of-type){
+    margin-right: 1%;
+  }
   &::before{
     font-size: 115%;
     top: 11px;
     left: 10px;
   }
 }
+.tabs-row-tab-holder{
+  @include make-md-column(10);
+}
+.tabs-row-button-holder{
+  @include make-md-column(2);
+  text-align: right;
+}
 .active-tab{
   border-left: 1px solid $border-lt-gray;
   border-top: 1px solid $border-lt-gray;
   border-right: 1px solid $border-lt-gray;
+  background: white;
+  position: relative;
+  top: 1px;
 }
 #contributions::before{ content: '\f196'; };
 #repositories::before{ content: '\f02d'; };
 #public::before{ content: '\f09e'; };
+.btn-default{
+  background-image: linear-gradient(rgb(252, 252, 252), rgb(238, 238, 238));
+}
+.btn-success{
+  background-image: linear-gradient(rgb(138, 218, 98), rgb(97, 175, 56));
+}
 #profile-edit{
-  @include make-sm-column(1);
 }
 .content-tab{
   height: 250px;
   display: none;
+}
+.repo-buttons{
+  padding: 12px 0;
+}
+#repo-sort{
+  @include make-md-column(7);
+  text-align: right;
+  li{
+    display: inline-block;
+    height: 34px;
+    &:not(:first-of-type){
+      margin-left: 10px;
+    }
+  }
+  button{
+    height: 34px;
+  }
+
+}
+#repo-search{
+  @include make-md-column(5);
+  height: 34px;
+  input, button{
+    height: 34px;
+    border-radius: 3px;
+  }
+  input{
+    padding-left: 8px;
+    width: 70%;
+  }
+  button{
+    width: 26%;
+  }
 }
 .active{
   display: block;

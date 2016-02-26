@@ -1,1 +1,49 @@
-module.exports = {'token': '1220aeefe84ebb24bf9d7353dbaace97342b06f9'};
+module.exports = {'token': '3ebed996d7c833346dace089b827830c2dcf2b7c',
+                  'userReturn': {
+                          "login": "dalevfenton",
+                          "id": 16996057,
+                          "avatar_url": "https://avatars.githubusercontent.com/u/16996057?v=3",
+                          "gravatar_id": "",
+                          "url": "https://api.github.com/users/dalevfenton",
+                          "html_url": "https://github.com/dalevfenton",
+                          "followers_url": "https://api.github.com/users/dalevfenton/followers",
+                          "following_url": "https://api.github.com/users/dalevfenton/following{/other_user}",
+                          "gists_url": "https://api.github.com/users/dalevfenton/gists{/gist_id}",
+                          "starred_url": "https://api.github.com/users/dalevfenton/starred{/owner}{/repo}",
+                          "subscriptions_url": "https://api.github.com/users/dalevfenton/subscriptions",
+                          "organizations": [
+                                            {
+                                              "login": "tiy-greenville-frontend-2016-feb",
+                                              "id": 16375347,
+                                              "url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb",
+                                              "repos_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/repos",
+                                              "events_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/events",
+                                              "hooks_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/hooks",
+                                              "issues_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/issues",
+                                              "members_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/members{/member}",
+                                              "public_members_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/public_members{/member}",
+                                              "avatar_url": "https://avatars.githubusercontent.com/u/16375347?v=3",
+                                              "description": null
+                                            }
+                                          ],
+                          "organizations_url": "https://api.github.com/users/dalevfenton/orgs",
+                          "repos_url": "https://api.github.com/users/dalevfenton/repos",
+                          "events_url": "https://api.github.com/users/dalevfenton/events{/privacy}",
+                          "received_events_url": "https://api.github.com/users/dalevfenton/received_events",
+                          "type": "User",
+                          "site_admin": false,
+                          "name": "Dale Fenton",
+                          "company": null,
+                          "blog": null,
+                          "location": "Greenville, SC",
+                          "email": null,
+                          "hireable": true,
+                          "bio": null,
+                          "public_repos": 20,
+                          "public_gists": 0,
+                          "followers": 1,
+                          "following": 0,
+                          "created_at": "2016-02-01T01:21:37Z",
+                          "updated_at": "2016-02-22T18:12:33Z"
+}
+};

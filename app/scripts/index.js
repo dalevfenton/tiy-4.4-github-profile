@@ -2,6 +2,10 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Handlebars = require('handlebars');
 var githubtoken = require('./githubtoken.js').token;
+var userReturn = require('./githubtoken.js').userReturn;
+var source = 'cache';
+var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
+
 var orgs, user_info;
 if(typeof(githubtoken) !== "undefined"){
   $.ajaxSetup({
@@ -54,22 +58,33 @@ function dropDownClick( clicked ){
   clearHover(clicked);
 }
 //------------------------------------------------------------------------------
-//                  AJAX CALL
+//                  RUN THE APP
 //------------------------------------------------------------------------------
 var url = 'https://api.github.com/users/dalevfenton';
-$.ajax(url).done(function(data){
-  var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
-  var date = new Date(data.created_at);
-  data.pretty_date = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
-  user_info = data;
-  drawHeader(user_info);
-  var orgsUrl = 'https://api.github.com/user/orgs';
-  $.ajax(orgsUrl).done(function(data){
-    user_info.organizations = data;
-    console.log(user_info);
-    drawSidebar(user_info);
+if(source==='api'){
+  $.ajax(url).
+    done(function(data){
+      user_info = data;
+      user_info = prettyDate(user_info);
+      drawHeader(user_info);
+      var orgsUrl = 'https://api.github.com/user/orgs';
+      $.ajax(orgsUrl).done(function(data){
+        user_info.organizations = data;
+        console.log(user_info);
+        drawSidebar(user_info);
+      });
+  })
+  .fail(function(jqXHR, status, error){
+    console.log(jqXHR);
+    console.log(status);
+    console.log(error);
   });
-});
+}else{
+  user_info = prettyDate(userReturn);
+  drawHeader(user_info);
+  drawSidebar(user_info);
+}
+
 //------------------------------------------------------------------------------
 //                 TEMPLATE FUNCTIONS CALLED ON AJAX COMPLETION
 //------------------------------------------------------------------------------
@@ -94,4 +109,10 @@ function drawSidebar(data){
   var sidebarHTML = sidebar(data);
   //insert into DOM
   $('#user-info').html(sidebarHTML);
+}
+
+function prettyDate(data){
+  var date = new Date(data.created_at);
+  data.pretty_date = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+  return data;
 }

@@ -1,6 +1,54 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-module.exports = {'token': '1220aeefe84ebb24bf9d7353dbaace97342b06f9'};
+module.exports = {'token': '3ebed996d7c833346dace089b827830c2dcf2b7c',
+                  'userReturn': {
+                          "login": "dalevfenton",
+                          "id": 16996057,
+                          "avatar_url": "https://avatars.githubusercontent.com/u/16996057?v=3",
+                          "gravatar_id": "",
+                          "url": "https://api.github.com/users/dalevfenton",
+                          "html_url": "https://github.com/dalevfenton",
+                          "followers_url": "https://api.github.com/users/dalevfenton/followers",
+                          "following_url": "https://api.github.com/users/dalevfenton/following{/other_user}",
+                          "gists_url": "https://api.github.com/users/dalevfenton/gists{/gist_id}",
+                          "starred_url": "https://api.github.com/users/dalevfenton/starred{/owner}{/repo}",
+                          "subscriptions_url": "https://api.github.com/users/dalevfenton/subscriptions",
+                          "organizations": [
+                                            {
+                                              "login": "tiy-greenville-frontend-2016-feb",
+                                              "id": 16375347,
+                                              "url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb",
+                                              "repos_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/repos",
+                                              "events_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/events",
+                                              "hooks_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/hooks",
+                                              "issues_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/issues",
+                                              "members_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/members{/member}",
+                                              "public_members_url": "https://api.github.com/orgs/tiy-greenville-frontend-2016-feb/public_members{/member}",
+                                              "avatar_url": "https://avatars.githubusercontent.com/u/16375347?v=3",
+                                              "description": null
+                                            }
+                                          ],
+                          "organizations_url": "https://api.github.com/users/dalevfenton/orgs",
+                          "repos_url": "https://api.github.com/users/dalevfenton/repos",
+                          "events_url": "https://api.github.com/users/dalevfenton/events{/privacy}",
+                          "received_events_url": "https://api.github.com/users/dalevfenton/received_events",
+                          "type": "User",
+                          "site_admin": false,
+                          "name": "Dale Fenton",
+                          "company": null,
+                          "blog": null,
+                          "location": "Greenville, SC",
+                          "email": null,
+                          "hireable": true,
+                          "bio": null,
+                          "public_repos": 20,
+                          "public_gists": 0,
+                          "followers": 1,
+                          "following": 0,
+                          "created_at": "2016-02-01T01:21:37Z",
+                          "updated_at": "2016-02-22T18:12:33Z"
+}
+};
 
 },{}],2:[function(require,module,exports){
 "use strict";
@@ -21,6 +69,10 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Handlebars = require('handlebars');
 var githubtoken = require('./githubtoken.js').token;
+var userReturn = require('./githubtoken.js').userReturn;
+var source = 'cache';
+var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
+
 var orgs, user_info;
 if(typeof(githubtoken) !== "undefined"){
   $.ajaxSetup({
@@ -73,22 +125,33 @@ function dropDownClick( clicked ){
   clearHover(clicked);
 }
 //------------------------------------------------------------------------------
-//                  AJAX CALL
+//                  RUN THE APP
 //------------------------------------------------------------------------------
 var url = 'https://api.github.com/users/dalevfenton';
-$.ajax(url).done(function(data){
-  var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
-  var date = new Date(data.created_at);
-  data.pretty_date = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
-  user_info = data;
-  drawHeader(user_info);
-  var orgsUrl = 'https://api.github.com/user/orgs';
-  $.ajax(orgsUrl).done(function(data){
-    user_info.organizations = data;
-    console.log(user_info);
-    drawSidebar(user_info);
+if(source==='api'){
+  $.ajax(url).
+    done(function(data){
+      user_info = data;
+      user_info = prettyDate(user_info);
+      drawHeader(user_info);
+      var orgsUrl = 'https://api.github.com/user/orgs';
+      $.ajax(orgsUrl).done(function(data){
+        user_info.organizations = data;
+        console.log(user_info);
+        drawSidebar(user_info);
+      });
+  })
+  .fail(function(jqXHR, status, error){
+    console.log(jqXHR);
+    console.log(status);
+    console.log(error);
   });
-});
+}else{
+  user_info = prettyDate(userReturn);
+  drawHeader(user_info);
+  drawSidebar(user_info);
+}
+
 //------------------------------------------------------------------------------
 //                 TEMPLATE FUNCTIONS CALLED ON AJAX COMPLETION
 //------------------------------------------------------------------------------
@@ -113,6 +176,12 @@ function drawSidebar(data){
   var sidebarHTML = sidebar(data);
   //insert into DOM
   $('#user-info').html(sidebarHTML);
+}
+
+function prettyDate(data){
+  var date = new Date(data.created_at);
+  data.pretty_date = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+  return data;
 }
 
 },{"./githubtoken.js":1,"./header.handlebars":2,"./sidebar.handlebars":4,"handlebars":35,"jquery":48,"underscore":51}],4:[function(require,module,exports){
