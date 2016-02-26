@@ -82,6 +82,7 @@ header{
 }
 #user-info{
   @include make-sm-column(3);
+  overflow-x: hidden;
 }
 #tabs{
   @include make-sm-column(9);
@@ -227,7 +228,6 @@ header{
 }
 #avatar{
   border-radius: 8px;
-  overflow: hidden;
 }
 #user-ids, #user-meta, #user-social, #user-orgs{
   padding: 18px 0;
@@ -240,6 +240,12 @@ header{
 .user_handle{
   color: rgb(101, 101, 101);
   font-weight: lighter;
+}
+.text-trunc{
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .icon{
   padding-left: 25px;

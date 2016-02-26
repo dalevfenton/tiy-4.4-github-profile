@@ -8,16 +8,16 @@
 <div id="user-meta">
   <ul>
     {{#unless hireable}}
-        <li class="icon" id="work">{{user_work}}</li>
+        <li class="icon text-trunc" id="work">{{user_work}}</li>
     {{/unless}}
     {{#if url}}
-      <li class="icon" id="site"><a href="{{user_site}}">{{url}}</a></li>
+      <li class="icon text-trunc" id="site"><a href="{{user_site}}">{{url}}</a></li>
     {{/if}}
     {{#if location}}
-      <li class="icon" id="location">{{location}}</li>
+      <li class="icon text-trunc" id="location">{{location}}</li>
     {{/if}}
     {{#if created_at}}
-      <li class="icon" id="datejoined">Joined on {{pretty_date}}</li>
+      <li class="icon text-trunc" id="datejoined">Joined on {{pretty_date}}</li>
     {{/if}}
   </ul>
 </div>

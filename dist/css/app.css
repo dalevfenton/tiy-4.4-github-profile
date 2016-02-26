@@ -5366,7 +5366,8 @@ header {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
-  padding-right: 15px; }
+  padding-right: 15px;
+  overflow-x: hidden; }
   @media (min-width: 768px) {
     #user-info {
       float: left;
@@ -5511,8 +5512,7 @@ header {
   padding-top: 18px; }
 
 #avatar {
-  border-radius: 8px;
-  overflow: hidden; }
+  border-radius: 8px; }
 
 #user-ids, #user-meta, #user-social, #user-orgs {
   padding: 18px 0;
@@ -5525,6 +5525,12 @@ header {
 .user_handle {
   color: #656565;
   font-weight: lighter; }
+
+.text-trunc {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
 
 .icon {
   padding-left: 25px;
