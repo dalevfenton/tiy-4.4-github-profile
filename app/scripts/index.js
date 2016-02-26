@@ -1,9 +1,15 @@
 //------------------------------------------------------------------------------
 //                        HANDLEBAR HELPERS
 //------------------------------------------------------------------------------
-var $ = require('jquery');
+var $;
+window.jQuery = $ = require('jquery');
 var _ = require('underscore');
 var Handlebars = require('handlebars/runtime')['default'];
+console.log($);
+console.log(jQuery);
+
+var bootstrap = require('bootstrap-sass/assets/javascripts/bootstrap.min.js');
+console.log(bootstrap);
                   // require('./helpers.js');
 var cache = require('./cached-data.js');
 var githubtoken = cache.token;
@@ -39,6 +45,7 @@ var source = 'cache';
 var header = require('./header.handlebars');
 var sidebar = require('./sidebar.handlebars');
 var repos = require('./repos.handlebars');
+var newrepo = require('./newrepo.handlebars');
 //build context obj
 //------------------------------------------------------------------------------
 //                        BUILD CONTEXT OBJECTS
@@ -148,20 +155,18 @@ if(source==='api'){
   drawHeader(userReturn);
   drawSidebar(userReturn);
   drawRepos(reposReturned);
-  // drawRepos(reposReturned);
+  drawNewRepoModal(userReturn);
 }
 
 function recurseRepos(repoArr, counter){
   if(counter < repoArr.length){
     var recurseUrl = 'https://api.github.com/repos/' + repoArr[counter].full_name;
     $.ajax(recurseUrl).done(function(data){
-      // console.log(data);
       repoArr[counter] = data;
       counter ++;
       recurseRepos(repoArr, counter);
     });
   }else{
-    // console.log('repo recursion done');
     counter = 0;
     reposReturned = repoArr;
     recurseRepoStats(repoArr, counter);
@@ -220,7 +225,29 @@ function prettyDate(data){
   return data;
 }
 
-
+function drawNewRepoModal(data){
+  var newRepoHTML = newrepo(data);
+  $('.modal-content').html(newRepoHTML);
+  $('#new-repo-submit').click(function(event){
+    var repoName = $('#new-repo-name')[0].value;
+    var repoDesc = $('#repo-desc')[0].value;
+    var repoPubPriv = $('.new-repo-pub-priv');
+    var repoGitIg = $('#use-gitignore');
+    console.log(event);
+    console.log(repoName);
+    console.log(repoDesc);
+    console.log(repoPubPriv);
+    console.log(repoGitIg);
+    var newRepoURL = 'https://api.github.com/user/repos';
+    $.ajax({
+      url: newRepoURL,
+      method: "POST",
+      data: { name: repoName, description: repoDesc, private: false, auto_init:false}
+    }).done(function(data){
+      console.log(data);
+    });
+  });
+}
 //from stackoverflow by rob updating from Sky Sanders
 //http://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site/23259289#23259289
 function timeSince(date) {

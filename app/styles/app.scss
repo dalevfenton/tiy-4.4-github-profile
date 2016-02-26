@@ -514,3 +514,41 @@ header{
 .footer-right{
   text-align: right;
 }
+.modal{
+  input{
+    height: 30px;
+    display: inline-block;
+  }
+  .dropdown{
+    height: 30px;
+  }
+}
+.name-form{
+  padding-top: 30px;
+  display: inline-block;
+}
+.repo-name-side{
+  width: 50%;
+}
+.new-repo-title{
+  font-weight: bold;
+  font-size: 13px;
+
+}
+.radio-holder{
+  width: 80%;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 12px;
+}
+#new-repo-name{
+  width: 100%;
+}
+.divider{
+  border-bottom: 1px solid $border-lt-gray;
+  margin: 10px 0;
+}
+.repo-inline{
+  margin-top: 10px;
+  display: inline-block;
+}

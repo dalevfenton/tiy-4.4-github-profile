@@ -1,0 +1,99 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title">Create a new repository</h4>
+  <span>A repository contains all the files for your project, including the revision history.</span>
+</div>
+<div class="modal-body">
+  <div class="repo-name-form">
+  <div class="owner-side name-form">
+    <div class="new-repo-title">Owner</div>
+    <div class="dropdown">
+    <button id="repo-owner" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <img src="{{avatar_url}}" height="20" width="20" class="avatar">
+      {{login}}
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="repo-owner">
+      <li class="dd-header">Choose another owner<button type="button" class="close" data-dismiss="dropdown-menu" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
+      <li role="separator" class="divider"></li>
+      <li><a href="#"><img src="{{avatar_url}}" height="20" width="20" class="avatar">{{login}}</a></li>
+      {{#if organizations}}
+      {{#each organizations}}
+      <li><a href="#"><img src="{{avatar_url}}" height="20" width="20" class="avatar">{{login}}</a></li>
+      {{/each}}
+      {{/if}}
+    </ul>
+  </div>
+</div>
+<div class="repo-slash name-form">/</div>
+<div class="repo-name-side name-form">
+  <div class="new-repo-title">Repository name</div>
+  <input type="text" id="new-repo-name">
+</div>
+</div>
+<div class="repo-desc-row">
+  <div class="new-repo-desc">Great repository names are short and memorable. Need inspiration? <span class="bold">How about fuzzy-octo-fiesta</span>.</div>
+
+<div class="repo-desc-form">
+  <div class="new-repo-title">Description <span class="optional">(optional)</span>
+  <input type="text" id="repo-desc" ></div>
+</div>
+
+<div role="separator" class="divider"></div>
+<div class="repo-pub">
+  <ul>
+    <li>
+      <input type="radio" class="new-repo-pub-priv" name="pub-priv" value="public" checked="true">
+      <div class="radio-holder">
+        <div class="new-repo-title">Public</div>
+        <div class="optional">Anyone can see this repository. You choose who can commit.</div>
+      </div>
+    </li>
+    <li>
+      <input type="radio" class="new-repo-pub-priv" name="pub-priv" value="private">
+      <div class="radio-holder">
+        <div class="new-repo-title">Private</div>
+        <div class="optional">You choose who can see and commit to this repository.</div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div role="separator" class="divider"></div>
+<div class="repo-init">
+  <input type="checkbox" id="use-gitignore" name="readme" value="">
+  <div class="radio-holder">
+    <div class="new-repo-title">Initialize this repository with a README</div>
+    <div class="optional">This will let you immediately clone the repository to your computer. Skip this step if you're importing an existing repository.</div>
+  </div>
+  <div class="dropdown repo-inline">
+  <button id="gitignore" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Add .gitignore: None
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="gitignore">
+    <li class="dd-header">.gitignore<button type="button" class="close" data-dismiss="dropdown-menu" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
+    <li role="separator" class="divider"></li>
+    <li><input type="text" id="gitignore-search" placeholder="Filter ignores..."></li>
+    <li><a href="#">example 1</a></li>
+    <li><a href="#">example 2</a></li>
+  </ul>
+</div>
+<div class="dropdown repo-inline">
+<button id="repo-lic" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Add a license: None
+  <span class="caret"></span>
+</button>
+<ul class="dropdown-menu" aria-labelledby="repo-lic">
+  <li class="dd-header">Licenses<button type="button" class="close" data-dismiss="dropdown-menu" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
+  <li role="separator" class="divider"></li>
+  <li><input type="text" id="licenses-search" placeholder="Filter licenses..."></li>
+  <li><a href="#">example 1</a></li>
+  <li><a href="#">example 2</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" id="new-repo-submit" class="btn btn-success">Create repository</button>
+</div>
