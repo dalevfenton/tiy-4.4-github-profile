@@ -5511,16 +5511,25 @@ header {
 .main-content-row {
   padding-top: 18px; }
 
+#user-info {
+  padding-right: 4%; }
+
 #avatar {
   border-radius: 8px; }
+  #avatar img {
+    max-width: none;
+    width: 100%; }
 
 #user-ids, #user-meta, #user-social, #user-orgs {
-  padding: 18px 0;
+  padding: 11px 0;
   border-bottom: 1px solid #e5e5e5; }
+
+#user-orgs {
+  border-bottom: none; }
 
 .full-name {
   font-weight: bold;
-  margin-bottom: 12px; }
+  font-size: 26px; }
 
 .user_handle {
   color: #656565;
@@ -5575,7 +5584,9 @@ header {
   color: #666666; }
 
 .orgs-title {
-  margin-bottom: 18px; }
+  margin-bottom: 18px;
+  font-size: 17px;
+  margin-top: 14px; }
 
 .user-org {
   width: 20%;
@@ -5656,6 +5667,9 @@ header {
   height: 250px;
   display: none; }
 
+.active {
+  display: block; }
+
 .repo-buttons {
   padding: 12px 0; }
 
@@ -5696,7 +5710,82 @@ header {
   #repo-search button {
     width: 26%; }
 
-.active {
-  display: block; }
+.forked-icon, .star-icon {
+  width: 10px;
+  content: ' ';
+  position: relative;
+  display: inline-block; }
+  .forked-icon::before, .star-icon::before {
+    position: absolute;
+    font-family: FontAwesome;
+    top: -10px;
+    left: 0; }
+
+.forked-icon::before {
+  content: '\f126'; }
+
+.star-icon::before {
+  content: '\f005'; }
+
+.repo-listing {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding: 20px 0;
+  color: #7f7f7f;
+  border-bottom: 1px solid #e5e5e5; }
+
+.repo-listing-holder {
+  margin-left: -15px;
+  margin-right: -15px; }
+  .repo-listing-holder:before, .repo-listing-holder:after {
+    content: " ";
+    display: table; }
+  .repo-listing-holder:after {
+    clear: both; }
+
+.repo-info-left {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px; }
+  @media (min-width: 992px) {
+    .repo-info-left {
+      float: left;
+      width: 75%; } }
+
+.repo-info-right {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: right;
+  font-weight: bold; }
+  @media (min-width: 992px) {
+    .repo-info-right {
+      float: left;
+      width: 25%; } }
+  .repo-info-right .repo-icon::before {
+    top: -14px; }
+  .repo-info-right a {
+    color: #7f7f7f; }
+
+.repo-title {
+  font-size: 20px;
+  margin-bottom: 13px; }
+
+.repo-forked {
+  font-size: 12px;
+  margin-bottom: 10px; }
+
+.repo-description {
+  font-size: 14px;
+  margin-bottom: 10px; }
+
+.repo-fork-holder, .repo-star-holder {
+  margin-left: 8px; }
 
 /*# sourceMappingURL=app.css.map */

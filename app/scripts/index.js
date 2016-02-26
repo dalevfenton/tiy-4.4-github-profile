@@ -26,8 +26,8 @@ var source = 'cache';
 //grab the header template for use
 var header = require('./header.handlebars');
 var sidebar = require('./sidebar.handlebars');
+var repos = require('./repos.handlebars');
 //build context obj
-
 //------------------------------------------------------------------------------
 //                        BUILD CONTEXT OBJECTS
 //------------------------------------------------------------------------------
@@ -97,6 +97,7 @@ if(source==='api'){
   user_info = prettyDate(userReturn);
   drawHeader(user_info);
   drawSidebar(user_info);
+  drawRepos(reposReturned);
   // drawRepos(reposReturned);
 }
 
@@ -111,8 +112,23 @@ function recurseRepos(repoArr, counter){
     });
   }else{
     // console.log('repo recursion done');
-    // drawRepos(repoArr);
+    counter = 0;
+    recurseRepoStats(repoArr, counter);
   }
+}
+
+function recurseRepoStats(repoArr, counter){
+    if(counter< repoArr.length){
+        var repoStats = 'https://api.github.com/repos/' + repoArr[counter].full_name + '/stats/participation';
+        $.ajax(repoStats).done(function(data){
+          repoArr[counter].participation = data;
+          counter ++;
+          recurseRepoStats(repoArr, counter);
+        });
+    }else{
+      console.log(repoArr);
+      drawRepos(repoArr);
+    }
 }
 //------------------------------------------------------------------------------
 //                 TEMPLATE FUNCTIONS CALLED ON AJAX COMPLETION
@@ -141,11 +157,59 @@ function drawSidebar(data){
 }
 
 function drawRepos(data){
-  var repoHTML = repo(data);
+  data.forEach(function( item ){
+    var dateFrom = timeSince( item.updated_at );
+    item.time = dateFrom[0];
+    item.period = dateFrom[1];
+    item.secondsSince = dateFrom[2];
+  });
+  var repoHTML = repos({'repos': data});
   $('#repo-listings').html(repoHTML);
 }
 function prettyDate(data){
   var date = new Date(data.created_at);
   data.pretty_date = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
   return data;
+}
+
+
+//from stackoverflow by rob updating from Sky Sanders
+//http://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site/23259289#23259289
+function timeSince(date) {
+    if (typeof date !== 'object') {
+        date = new Date(date);
+    }
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var intervalType;
+    var interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) {
+        intervalType = 'year';
+    } else {
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) {
+            intervalType = 'month';
+        } else {
+            interval = Math.floor(seconds / 86400);
+            if (interval >= 1) {
+                intervalType = 'day';
+            } else {
+                interval = Math.floor(seconds / 3600);
+                if (interval >= 1) {
+                    intervalType = "hour";
+                } else {
+                    interval = Math.floor(seconds / 60);
+                    if (interval >= 1) {
+                        intervalType = "minute";
+                    } else {
+                        interval = seconds;
+                        intervalType = "second";
+                    }
+                }
+            }
+        }
+    }
+    if (interval > 1 || interval === 0) {
+        intervalType += 's';
+    }
+    return [interval, intervalType, seconds];
 }

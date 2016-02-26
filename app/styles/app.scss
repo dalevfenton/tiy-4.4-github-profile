@@ -225,17 +225,25 @@ header{
   padding-top: 18px;
 }
 #user-info{
+  padding-right: 4%;
 }
 #avatar{
   border-radius: 8px;
+  img{
+    max-width: none;
+    width: 100%;
+  }
 }
 #user-ids, #user-meta, #user-social, #user-orgs{
-  padding: 18px 0;
+  padding: 11px 0;
   border-bottom: 1px solid $border-lt-gray;
+}
+#user-orgs{
+  border-bottom: none;
 }
 .full-name{
   font-weight: bold;
-  margin-bottom: 12px;
+  font-size: 26px;
 }
 .user_handle{
   color: rgb(101, 101, 101);
@@ -285,6 +293,8 @@ header{
 }
 .orgs-title{
   margin-bottom: 18px;
+  font-size: 17px;
+  margin-top: 14px;
 }
 .user-org{
   width: 20%;
@@ -348,11 +358,15 @@ header{
 .btn-success{
   background-image: linear-gradient(rgb(138, 218, 98), rgb(97, 175, 56));
 }
+
 #profile-edit{
 }
 .content-tab{
   height: 250px;
   display: none;
+}
+.active{
+  display: block;
 }
 .repo-buttons{
   padding: 12px 0;
@@ -387,6 +401,66 @@ header{
     width: 26%;
   }
 }
-.active{
-  display: block;
+.forked-icon, .star-icon{
+  width: 10px;
+  content: ' ';
+  position: relative;
+  display: inline-block;
+  &::before{
+    position: absolute;
+    font-family: FontAwesome;
+    top: -10px;
+    left: 0;
+  }
 }
+.forked-icon::before{
+    content: '\f126';
+}
+.star-icon::before{
+    content: '\f005';
+}
+.repo-listing{
+  @include make-xs-column(12);
+  padding: 20px 0;
+  color: darken($border-lt-gray, 40%);
+  border-bottom: 1px solid $border-lt-gray;
+}
+.repo-listing-holder{
+  @include make-row();
+}
+.repo-info-left{
+  @include make-md-column(9);
+}
+.repo-info-right{
+  @include make-md-column(3);
+  text-align: right;
+  font-weight: bold;
+  .repo-icon::before{
+    top: -14px;
+  }
+  a{
+    color: darken($border-lt-gray, 40%);
+  }
+}
+.repo-title{
+  font-size: 20px;
+  margin-bottom: 13px;
+}
+.repo-forked{
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.repo-description{
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.repo-fork-holder, .repo-star-holder{
+  margin-left: 8px;
+}
+// #repo-listings{}
+// .repo-info-left{
+//   @include make-md-column(9);
+// }
+// .repo-info-right{
+//   @include make-md-column(3);
+// }

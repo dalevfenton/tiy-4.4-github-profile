@@ -1,0 +1,36 @@
+{{#each repos}}
+<div class="repo-listing">
+  <div class="repo-listing-holder">
+    <div class="repo-info-left">
+      <h2 class="repo-title"><a href="{{html_url}}">{{name}}</a></h2>
+      {{#if source}}
+      <h4 class="repo-forked"><span class="forked-icon"></span>forked from <a href="{{source.html_url}}">{{source.full_name}}</a></h4>
+      {{/if}}
+      {{#if description}}
+      <div class="repo-description">{{description}}</div>
+      {{/if}}
+      <div class="updated">Updated {{time}} {{period}} ago</div>
+    </div>
+    <div class="repo-info-right">
+      {{#if language}}
+      <span class="repo-type">{{language}}</span>
+      {{/if}}
+      <a href="{{stargazers_url}}" class="repo-star-holder">
+        <span class="repo-icon star-icon"></span>
+        <span class="repo-info repo-stars">{{stargazers_count}}</span>
+      </a>
+      {{#if source}}
+      <a href="{{html_url}}/network" class="repo-fork-holder">
+        <span class="repo-icon forked-icon"></span>
+        <span class="repo-info repo-forks">{{source.forks}}</span>
+      </a>
+      {{else}}
+      <a href="{{html_url}}/network" class="repo-fork-holder">
+        <span class="repo-icon forked-icon"></span>
+        <span class="repo-info repo-forks">{{forks}}</span>
+      </a>
+      {{/if}}
+    </div>
+  </div>
+</div>
+{{/each}}
