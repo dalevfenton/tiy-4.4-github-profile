@@ -1,3 +1,4 @@
+<!doctype html>
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   <h4 class="modal-title">Create a new repository</h4>
@@ -74,8 +75,10 @@
     <li class="dd-header">.gitignore<button type="button" class="close" data-dismiss="dropdown-menu" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
     <li role="separator" class="divider"></li>
     <li><input type="text" id="gitignore-search" placeholder="Filter ignores..."></li>
-    <li><a href="#">example 1</a></li>
-    <li><a href="#">example 2</a></li>
+    <li><a href="#">None</a></li>
+    {{#each gitignores}}
+    <li><a href="#">{{this}}</a></li>
+    {{/each}}
   </ul>
 </div>
 <div class="dropdown repo-inline">
@@ -87,8 +90,10 @@
   <li class="dd-header">Licenses<button type="button" class="close" data-dismiss="dropdown-menu" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
   <li role="separator" class="divider"></li>
   <li><input type="text" id="licenses-search" placeholder="Filter licenses..."></li>
-  <li><a href="#">example 1</a></li>
-  <li><a href="#">example 2</a></li>
+  <li><a href="#">None</a></li>
+  {{#each licenses}}
+  <li><a href="#" value="{{key}}">{{name}}</a></li>
+  {{/each}}
 </ul>
 </div>
 </div>

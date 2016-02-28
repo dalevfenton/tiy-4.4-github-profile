@@ -1,3 +1,4 @@
+<!doctype html>
 {{#each repos}}
 <div class="repo-listing">
   <div class="repo-listing-holder">
@@ -18,7 +19,7 @@
             {{/each}}
           {{else}} --}}
             {{#each this}}
-              <div class="bar bar-{{@index}} bar-loop-{{@../index}} bar-owner-part" style="left:{{percent-offset @index}}%; height:{{times-ten this}}px;"></div>
+              <div class="bar bar-{{@index}} bar-loop-{{@../index}} bar-owner-part" style="left:{{percent-offset @index}}%; height:{{scale-bar this 1.25}}px;"></div>
             {{/each}}
           {{!-- {{/if}} --}}
         {{/each}}

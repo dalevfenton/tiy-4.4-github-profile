@@ -1,39 +1,41 @@
 //------------------------------------------------------------------------------
-//                        HANDLEBAR HELPERS
+//                        LIBRARIES
 //------------------------------------------------------------------------------
 var $;
 window.jQuery = $ = require('jquery');
 var _ = require('underscore');
 var Handlebars = require('handlebars/runtime')['default'];
-console.log($);
-console.log(jQuery);
-
 var bootstrap = require('bootstrap-sass/assets/javascripts/bootstrap.min.js');
-console.log(bootstrap);
-                  // require('./helpers.js');
+
+//CACHED DATA USED DURING DEVELOPMENT SO WE DON'T HAVE TO CALL THE API
+//EVERY TIME WE UPDATE CSS OR HTML FILES
 var cache = require('./cached-data.js');
+//SETUP GLOBAL VARIABLES FOR OUR APP
 var githubtoken = cache.token;
 var userReturn = cache.userReturn;
 var reposReturned = cache.repos;
 var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
 var orgs, user_info, repoSort, repoLoaded, data, sortRepos, searchRepos;
+var gitignores = cache.gitignores;
+var licenses = cache.licenses;
 
-Handlebars.registerHelper('times-ten', function( object ) {
-  return new Handlebars.SafeString( object * 1.25 );
+//HANDLEBARS TEMPLATE HELPER FUNCTIONS
+Handlebars.registerHelper('scale-bar', function( object, scale ) {
+  return new Handlebars.SafeString( object * scale );
 });
 Handlebars.registerHelper('percent-offset', function(object) {
   return new Handlebars.SafeString( object / 52 * 100 );
 });
-//setup headers to do authentication with github using personal token
+
+
+//SET OUR AUTH TOKEN IN THE HEADER OF OUR API REQUESTS
 if(typeof(githubtoken) !== "undefined"){
   $.ajaxSetup({
     headers: {
-      'Authorization': 'token ' + githubtoken,
+      'Authorization': 'token ' + githubtoken
     }
   });
 }
-
-
 
 //flag that can be set to api to use live api calls or cache to use cached data
 //so that our usage and refresh time are low
@@ -57,6 +59,8 @@ var newrepo = require('./newrepo.handlebars');
 //------------------------------------------------------------------------------
 //                        INTERACTIVE EVENT HANDLERS
 //------------------------------------------------------------------------------
+
+//EVENT HANDLER FOR THE SORT OPTIONS OF THE REPO TAB
 $('.repo-sort-option').click(function(event){
     event.preventDefault();
     repoSort = event.currentTarget.attributes.value.value;
@@ -71,9 +75,8 @@ $('.repo-sort-option').click(function(event){
       drawRepos(sortRepos);
     }
 });
+//EVENT HANDLER FOR SEARCH INPUT ON THE REPO TAB
 $('#repo-search-input').on('keyup', function(event){
-  // console.log(event);
-  console.log(event.currentTarget.value);
   var searchTerm = event.currentTarget.value;
   if(repoLoaded){
     if(sortRepos !== undefined){
@@ -90,7 +93,6 @@ $('#repo-search-input').on('keyup', function(event){
     });
     drawRepos(searchedRepos);
   }
-
 });
 //------------------------------------------------------------------------------
 //                  EVENT HANDLER CALLBACK FUNCTIONS
@@ -121,6 +123,7 @@ if(source==='api'){
         user_info.organizations = data;
         // console.log(user_info);
         drawSidebar(userReturn);
+        drawNewRepoModal(userReturn);
         var repoUrl = 'https://api.github.com/users/' + userReturn.login + '/repos';
         $.ajax(repoUrl).done(function(data){
           var index = 0;
@@ -155,6 +158,8 @@ if(source==='api'){
   drawHeader(userReturn);
   drawSidebar(userReturn);
   drawRepos(reposReturned);
+  userReturn.licenses = licenses;
+  userReturn.gitignores = gitignores;
   drawNewRepoModal(userReturn);
 }
 
@@ -233,18 +238,24 @@ function drawNewRepoModal(data){
     var repoDesc = $('#repo-desc')[0].value;
     var repoPubPriv = $('.new-repo-pub-priv');
     var repoGitIg = $('#use-gitignore');
-    console.log(event);
-    console.log(repoName);
-    console.log(repoDesc);
-    console.log(repoPubPriv);
-    console.log(repoGitIg);
+    // console.log(event);
+    // console.log(repoName);
+    // console.log(repoDesc);
+    // console.log(repoPubPriv);
+    // console.log(repoGitIg);
     var newRepoURL = 'https://api.github.com/user/repos';
     $.ajax({
-      url: newRepoURL,
-      method: "POST",
-      data: { name: repoName, description: repoDesc, private: false, auto_init:false}
+      "url": newRepoURL,
+      "method": "POST",
+      "contentType": "application/json",
+      "dataType": "json",
+      "data": JSON.stringify({ "name": repoName, "description": repoDesc, private:false, auto_init: false})
     }).done(function(data){
       console.log(data);
+    }).fail(function(jqXHR, status, error){
+      console.log(jqXHR);
+      console.log(status);
+      console.log(error);
     });
   });
 }
