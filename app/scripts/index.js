@@ -14,6 +14,7 @@ var cache = require('./cached-data.js');
 var githubtoken = cache.token;
 var userReturn = cache.userReturn;
 var reposReturned = cache.repos;
+var newrepoReturned = cache.newrepo;
 var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
 var orgs, user_info, repoSort, repoLoaded, data, sortRepos, searchRepos;
 var gitignores = cache.gitignores;
@@ -48,6 +49,7 @@ var header = require('./header.handlebars');
 var sidebar = require('./sidebar.handlebars');
 var repos = require('./repos.handlebars');
 var newrepo = require('./newrepo.handlebars');
+var reposuccess = require('./reposuccess.handlebars');
 //build context obj
 //------------------------------------------------------------------------------
 //                        BUILD CONTEXT OBJECTS
@@ -94,6 +96,26 @@ $('#repo-search-input').on('keyup', function(event){
     drawRepos(searchedRepos);
   }
 });
+//EVENT HANDLER TO RESET NEW REPO FORM ON OPENING
+$('#new-repo').click(function(event){
+  if(userReturn){
+    drawNewRepoModal(userReturn);
+  }
+});
+function setDropDownEvents(array){
+  array.forEach(function(item){
+    var strOne = '#repo-' + item + '-list li a';
+    $(strOne).click(function(event){
+      var valSelected = event.currentTarget.attributes.value.value;
+      var valDisplay = event.currentTarget.text;
+      $(strOne).removeClass('dd-selected');
+      $(event.currentTarget).addClass('dd-selected');
+      $('#repo-' + item + ' .repo-' + item + '-display').text(valDisplay);
+      $('#repo-' + item ).attr( item, valSelected );
+    });
+  });
+}
+
 //------------------------------------------------------------------------------
 //                  EVENT HANDLER CALLBACK FUNCTIONS
 //------------------------------------------------------------------------------
@@ -233,31 +255,62 @@ function prettyDate(data){
 function drawNewRepoModal(data){
   var newRepoHTML = newrepo(data);
   $('.modal-content').html(newRepoHTML);
+  setDropDownEvents(['gitig', 'lic']);
   $('#new-repo-submit').click(function(event){
     var repoName = $('#new-repo-name')[0].value;
     var repoDesc = $('#repo-desc')[0].value;
     var repoPubPriv = $('.new-repo-pub-priv');
-    var repoGitIg = $('#use-gitignore');
-    // console.log(event);
-    // console.log(repoName);
-    // console.log(repoDesc);
-    // console.log(repoPubPriv);
-    // console.log(repoGitIg);
+    var repoInit = $('#git-init');
+    var repoGitIg = $('#repo-gitig');
+    var repoLicense = $('#repo-lic');
+    repoPubPriv = _.filter(repoPubPriv, 'checked');
+    if(repoPubPriv.value == 'private'){
+      repoPubPriv = true;
+    }else{
+      repoPubPriv = false;
+    }
+    repoInit = repoInit.checked;
+    if(repoGitIg[0].hasOwnProperty( 'attributes.gitig.value' ) ){
+      repoGitIg = repoGitIg[0].attributes.gitig.value;
+    }else{
+      repoGitIg = "";
+    }
+    if(repoLicense[0].hasOwnProperty( 'attributes.lic.value' ) ){
+      repoLicense = repoLicense[0].attributes.lic.value;
+    }else{
+      repoLicense = "";
+    }
     var newRepoURL = 'https://api.github.com/user/repos';
     $.ajax({
       "url": newRepoURL,
       "method": "POST",
       "contentType": "application/json",
       "dataType": "json",
-      "data": JSON.stringify({ "name": repoName, "description": repoDesc, private:false, auto_init: false})
+      "data": JSON.stringify({ "name": repoName, "description": repoDesc, "private":repoPubPriv, "auto_init": repoInit, "gitignore_template": repoGitIg, "license_template": repoLicense})
     }).done(function(data){
       console.log(data);
+      newrepoReturned = data;
+      drawRepoResult(newrepoReturned);
+      var dateFrom = timeSince( newrepoReturned.updated_at );
+      newrepoReturned.time = dateFrom[0];
+      newrepoReturned.period = dateFrom[1];
+      newrepoReturned.secondsSince = dateFrom[2];
+      reposReturned.push(newrepoReturned);
+      reposReturned = _.sortBy(reposReturned, 'secondsSince');
+      drawRepos(reposReturned);
     }).fail(function(jqXHR, status, error){
+      newrepoReturned = jqXHR;
       console.log(jqXHR);
       console.log(status);
       console.log(error);
+      drawRepoResult(newrepoReturned);
     });
   });
+}
+
+function drawRepoResult(data){
+  var repoSuccessHTML = reposuccess(data);
+  $('.modal-content').html(repoSuccessHTML);
 }
 //from stackoverflow by rob updating from Sky Sanders
 //http://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site/23259289#23259289

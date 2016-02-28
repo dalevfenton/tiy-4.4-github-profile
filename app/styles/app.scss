@@ -564,3 +564,13 @@ header{
 .dd-header{
   padding: 0 5%;
 }
+.dd-selected{
+  position: relative;
+  &::before{
+    position: absolute;
+    font-family: FontAwesome;
+    content: '\f00c';
+    top: 3px;
+    left: 3px;
+  }
+}

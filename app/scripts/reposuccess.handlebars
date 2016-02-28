@@ -1,0 +1,32 @@
+<!doctype html>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title">
+    {{#if id}}
+      Success!
+    {{else}}
+      Repository Creation Failed
+    {{/if}}
+  </h4>
+</div>
+<div class="modal-body">
+  {{#if id}}
+    {{name}} Has Been Created with {{owner.login}} as the owner and is located at:
+    <a href="{{html_url}}">{{html_url}}</a>
+  {{else}}
+    Error {{status}}: {{statusText}}<br>
+    See Documentation At: <a href="{{responseJSON.documentation_url}}">{{responseJSON.documentation_url}}</a><br>
+    <br>
+    Message From Server: {{responseJSON.message}}<br>
+
+    Details:
+    <ol>
+      {{#each responseJSON.errors}}
+      <li>code: {{code}} <br> field: {{field}} <br> resource: {{resource}}
+      {{#if message}}<br>message: {{message}}
+      {{/if}}</li>
+      {{/each}}
+    </ol>
+  {{/if}}
+
+</div>

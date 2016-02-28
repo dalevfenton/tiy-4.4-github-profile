@@ -61,32 +61,34 @@
 </div>
 <div role="separator" class="divider"></div>
 <div class="repo-init">
-  <input type="checkbox" id="use-gitignore" name="readme" value="">
+  <input type="checkbox" id="git-init" name="readme" value="">
   <div class="radio-holder">
     <div class="new-repo-title">Initialize this repository with a README</div>
     <div class="optional">This will let you immediately clone the repository to your computer. Skip this step if you're importing an existing repository.</div>
   </div>
   <div class="dropdown repo-inline">
-  <button id="gitignore" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Add .gitignore: None
+  <button id="repo-gitig" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span>Add .gitignore: </span>
+    <span class="repo-gitig-display">None</span>
     <span class="caret"></span>
   </button>
-  <ul class="dropdown-menu" aria-labelledby="gitignore">
+  <ul id="repo-gitig-list" class="dropdown-menu" aria-labelledby="gitignore">
     <li class="dd-header">.gitignore<button type="button" class="close" data-dismiss="dropdown-menu" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
     <li role="separator" class="divider"></li>
     <li><input type="text" id="gitignore-search" placeholder="Filter ignores..."></li>
-    <li><a href="#">None</a></li>
+    <li><a href="#" value="None">None</a></li>
     {{#each gitignores}}
-    <li><a href="#">{{this}}</a></li>
+    <li><a href="#" value="{{this}}">{{this}}</a></li>
     {{/each}}
   </ul>
 </div>
 <div class="dropdown repo-inline">
 <button id="repo-lic" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Add a license: None
+  <span>Add license: </span>
+  <span class="repo-lic-display">None</span>
   <span class="caret"></span>
 </button>
-<ul class="dropdown-menu" aria-labelledby="repo-lic">
+<ul id="repo-lic-list" class="dropdown-menu" aria-labelledby="repo-lic">
   <li class="dd-header">Licenses<button type="button" class="close" data-dismiss="dropdown-menu" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
   <li role="separator" class="divider"></li>
   <li><input type="text" id="licenses-search" placeholder="Filter licenses..."></li>
