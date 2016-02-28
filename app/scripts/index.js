@@ -1,3 +1,6 @@
+//to get authentication to work cd into the gatekeeper folder and run: node server.js
+//then run the site as normal through npm run watch, will have to update
+//the application redirect URL with github if the npm server has a different port
 //------------------------------------------------------------------------------
 //                        LIBRARIES
 //------------------------------------------------------------------------------
@@ -15,11 +18,24 @@ var githubtoken = cache.token;
 var userReturn = cache.userReturn;
 var reposReturned = cache.repos;
 var newrepoReturned = cache.newrepo;
-var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
-var orgs, user_info, repoSort, repoLoaded, data, sortRepos, searchRepos;
 var gitignores = cache.gitignores;
 var licenses = cache.licenses;
+var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
+var orgs, user_info, repoSort, repoLoaded, data, sortRepos, searchRepos;
+var clientID = cache.clientID;
+var clientSecret = cache.clientSecret;
+var oAuthURL = 'https://github.com/login/oauth/authorize';
+var loggedIn = false;
 
+if(loggedIn){
+  loadPage();
+}else{
+  displayLogin();
+}
+
+function displayLogin(){
+  $('#login-modal').modal('show');
+}
 //HANDLEBARS TEMPLATE HELPER FUNCTIONS
 Handlebars.registerHelper('scale-bar', function( object, scale ) {
   return new Handlebars.SafeString( object * scale );
@@ -28,15 +44,28 @@ Handlebars.registerHelper('percent-offset', function(object) {
   return new Handlebars.SafeString( object / 52 * 100 );
 });
 
-
-//SET OUR AUTH TOKEN IN THE HEADER OF OUR API REQUESTS
-if(typeof(githubtoken) !== "undefined"){
-  $.ajaxSetup({
-    headers: {
-      'Authorization': 'token ' + githubtoken
+if(document.URL.indexOf('?code=') > -1){
+  var code = document.URL.match(/\?code=(.*)/);
+  console.log(code);
+  $.getJSON('http://localhost:9999/authenticate/'+code[1], function(data) {
+    // SET OUR AUTH TOKEN IN THE HEADER OF OUR API REQUESTS
+    if(typeof(githubtoken) !== "undefined"){
+      $.ajaxSetup({
+        headers: {
+          'Authorization': 'token ' + data.token
+        }
+      });
     }
   });
 }
+
+function oAuthLogin(){
+  $('#github-login').click(function(event){
+    console.log('inside login handler');
+    window.open('https://github.com/login/oauth/authorize?client_id='+clientID+'&scope=repo');
+  });
+}
+
 
 //flag that can be set to api to use live api calls or cache to use cached data
 //so that our usage and refresh time are low
@@ -183,6 +212,9 @@ if(source==='api'){
   userReturn.licenses = licenses;
   userReturn.gitignores = gitignores;
   drawNewRepoModal(userReturn);
+  //EVENT HANDLER FOR GITHUB LOGIN WITH OAUTH
+  oAuthLogin();
+
 }
 
 function recurseRepos(repoArr, counter){
