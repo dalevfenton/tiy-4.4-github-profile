@@ -11,12 +11,9 @@
       <li>
         <input id="hla-search-bar" type="text" placeholder="Search GitHub">
       </li>
-      <li><button type="button" id="github-login" class="btn btn-success">
-        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Login To Your GitHub Account
-      </button></li>
-      <li><a href="">Pull requests</a></li>
-      <li><a href="">Issues</a></li>
-      <li><a href="">Gist</a></li>
+      <li><a href="https://github.com/pulls">Pull requests</a></li>
+      <li><a href="https://github.com/issues">Issues</a></li>
+      <li><a href="https://gist.github.com/">Gist</a></li>
     </ul>
   </div>
   <div class="header hra-block right-align">
@@ -28,8 +25,8 @@
           <span class="downarrow"></span>
         </a>
         <ul>
-          <li><a href="/new" class="hra-down-item">New repository</a></li>
-          <li><a href="/organizations/new" class="hra-down-item">New organization</a></li>
+          <li><a id="new-repo-dd" href="/new" class="hra-down-item">New repository</a></li>
+          <li><a href="https://github.com/organizations/new" class="hra-down-item">New organization</a></li>
         </ul>
       </li>
       <li id="hra-profile">
@@ -41,13 +38,13 @@
         </a>
         <ul>
           <li class="hra-profile-header"><span class="hra-phbp">Signed in as:</span><span class="hra-phun">{{login}}</span></li>
-          <li><a class="hra-down-item" href="/{{login}}">Your profile</a></li>
-          <li><a class="hra-down-item" href="/stars">Your stars</a></li>
-          <li><a class="hra-down-item" href="/explore">Explore</a></li>
-          <li><a class="hra-down-item" href="/integrations">Integrations</a></li>
-          <li><a class="hra-down-item" href="https://help.github.com">Help</a></li>
-          <li class="hra-psettings"><a class="hra-down-item" href="/settings/profile">Settings</a></li>
-          <li class="hra-psignout"><a class="hra-down-item" href="/logout">Sign out</a></li>
+          <li><a class="hra-down-item" href="{{html_url}}" target="_blank">Your profile</a></li>
+          <li><a class="hra-down-item" href="https://github.com/stars" target="_blank">Your stars</a></li>
+          <li><a class="hra-down-item" href="https://github.com/explore" target="_blank">Explore</a></li>
+          <li><a class="hra-down-item" href="https://github.com/integrations" target="_blank">Integrations</a></li>
+          <li><a class="hra-down-item" href="https://help.github.com" target="_blank">Help</a></li>
+          <li class="hra-psettings"><a class="hra-down-item" href="https://github.com/settings/profile" target="_blank">Settings</a></li>
+          <li class="hra-psignout"><a id="logout" class="hra-down-item" href="/logout">Sign out</a></li>
         </ul>
       </li>
     </ul>
