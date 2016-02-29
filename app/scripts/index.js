@@ -1,6 +1,6 @@
 //to get authentication to work cd into the gatekeeper folder and run: node server.js
-//then run the site as normal through npm run watch, will have to update
-//the application redirect URL with github if the npm server has a different port
+//then run the site as normal through npm run watch
+//documentation and install instructions here: https://github.com/prose/gatekeeper
 //------------------------------------------------------------------------------
 //                        LIBRARIES
 //------------------------------------------------------------------------------
@@ -10,24 +10,27 @@ var _ = require('underscore');
 var Handlebars = require('handlebars/runtime')['default'];
 var bootstrap = require('bootstrap-sass/assets/javascripts/bootstrap.min.js');
 
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
 //CACHED DATA USED DURING DEVELOPMENT SO WE DON'T HAVE TO CALL THE API
 //EVERY TIME WE UPDATE CSS OR HTML FILES
-var cache = require('./cached-data.js');
-//SETUP GLOBAL VARIABLES FOR OUR APP
-var githubtoken = cache.token;
-var userReturn = cache.userReturn;
-var reposReturned = cache.repos;
-var newrepoReturned = cache.newrepo;
-var gitignores = cache.gitignores;
-var licenses = cache.licenses;
+// var cache = require('./cached-data.js');
+//SETUP GLOBAL VARIABLES
+// var githubtoken = cache.token;
+// var userReturn = cache.userReturn;
+// var reposReturned = cache.repos;
+// var newrepoReturned = cache.newrepo;
+// var gitignores = cache.gitignores;
+// var licenses = cache.licenses;
+var githubtoken, userReturn, reposReturned, newrepoReturned, gitignores, licenses;
 var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
 var orgs, user_info, repoSort, repoLoaded, data, sortRepos, searchRepos;
 var clientID = cache.clientID;
 var clientSecret = cache.clientSecret;
 var oAuthURL = 'https://github.com/login/oauth/authorize';
 var loggedIn = false;
-var gitLogin;
-var userURL, orgsUrl;
+var gitLogin, userURL, orgsUrl;
 //------------------------------------------------------------------------------
 //                        TEMPLATE IMPORTS
 //------------------------------------------------------------------------------
@@ -46,52 +49,62 @@ Handlebars.registerHelper('percent-offset', function(object) {
   return new Handlebars.SafeString( object / 52 * 100 );
 });
 
-
+//------------------------------------------------------------------------------
+//                        INITIALIZE THE PAGE
+//------------------------------------------------------------------------------
 initializePage();
 
 //function that we invoke on pageload to control flow from here on out
 function initializePage(){
+  //detect if we have gotten a stage one code from github to auth with
   if(document.URL.indexOf('?code=') > -1){
     var code = document.URL.match(/\?code=(.*)/);
+    //go to gatekeeper to get the auth token for our api calls
     $.getJSON('http://localhost:9999/authenticate/'+code[1], function(data) {
       // SET OUR AUTH TOKEN IN THE HEADER OF OUR API REQUESTS
       if(typeof(data.token) !== "undefined"){
         loggedIn = true;
         $.ajaxSetup({
           headers: {
-            'Authorization': 'token ' + data.token
+            'Authorization': 'token ' + data.token,
+            'Accept': 'application/vnd.github.drax-preview+json'
           }
         });
+        //set loading indication
         $('.loading-login-inner').html('<h2>Loading Your Page This Can Take a Few Seconds</h2><i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>');
-        //set new repo button to active
+        //start the chain of api calls
         buildPage();
       }
     });
   }else{
-    //event handler to listen for login button
+    //if we don't have a code to process through, then show the login page with
+    //event handler to listen for login button or user search
     drawLoading();
   }
 }
 
 //setup the initial loading window if we aren't authenticated
-//the event handler here initializes the page load if we are passed a username
+//the event handler here initializes the page load if the user gives us a username
 function drawLoading( ){
+  //output loading screen template
   $('.loading-login-inner').html( loading );
+  //attach event handlers to login UI elements
+
   $('#user-search-submit').click(function(event){
     //handle unauthenticated user search
     gitLogin = $('#user-search-input')[0].value;
     if(gitLogin !== undefined){
       $.ajaxSetup({
         headers: {
-          'Authorization': 'token ' + cache.token
+          'Authorization': 'token ' + cache.token,
+          'Accept': 'application/vnd.github.drax-preview+json'
         }
       });
       verifyLogin('login');
-      // $('.loading-login-inner').html('<h2>Loading Your Page This Can Take a Few Seconds</h2><i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>');
-      // //set new repo to inactive
-      // buildPage();
     }
   });
+
+  //go to github to get stage 1 OAuth code
   $('#github-login').click(function(event){
     window.location.replace('https://github.com/login/oauth/authorize?client_id='+clientID+'&scope=repo');
   });
@@ -100,8 +113,9 @@ function drawLoading( ){
 
 //------------------------------------------------------------------------------
 //               BUILD OUR DATA OBJECTS FROM THE API ENDPOINTS
-//                  AND THEN LOAD OUR PAGE FROM TEMPLATES
 //------------------------------------------------------------------------------
+//check to see if a username we're given is valid before we run our full
+//list of API calls
 function verifyLogin( source ){
   userURL = 'https://api.github.com/users/' + gitLogin;
   $.ajax(userURL).done(function(data){
@@ -110,9 +124,6 @@ function verifyLogin( source ){
     //set new repo to inactive
     buildPage();
   }).fail(function(jqXHR, status, error){
-    // console.log(jqXHR);
-    // console.log(status);
-    // console.log(error);
     newrepoReturned = jqXHR;
     if(source == 'search'){
       // console.log($('#hla-search-bar'));
@@ -124,7 +135,7 @@ function verifyLogin( source ){
   });
 }
 
-
+//get a user's data (public or private depending on our authentication)
 //entry point for our page once we have an auth token
 function buildPage(){
   if(loggedIn){
@@ -134,10 +145,29 @@ function buildPage(){
   }
   $.ajax(userURL).done(function(data){
     userReturn = prettyDate(data);
-    getOrgs();  //ajax call to organizations api endpoint
+    getGitIgnores();  //ajax call to organizations api endpoint
   });
 }
 
+//get the list of gitignore templates to populate the new repo form
+function getGitIngonores(){
+  var gitUrl = 'https://api.github.com/gitignore/templates';
+  $.ajax(gitUrl).done(function(data){
+    gitignores = data;
+    getLicenses();
+  });
+}
+
+//get the list of license templates to populate the new repo form
+function getLicenses(){
+  var licenseUrl = 'https://api.github.com/licenses';
+  $.ajax(licenseUrl).done(function(data){
+    licenses = data;
+    getOrgs();
+  });
+}
+
+//get a detailed list of organizations for the user
 function getOrgs(){
   if(loggedIn){
     orgsUrl = 'https://api.github.com/user/orgs';
@@ -150,6 +180,7 @@ function getOrgs(){
   });
 }
 
+//get the list of repositories for this user
 function getRepos(){
   var repoUrl = 'https://api.github.com/users/' + userReturn.login + '/repos';
   $.ajax(repoUrl).done(function(data){
@@ -161,6 +192,7 @@ function getRepos(){
   });
 }
 
+//go through our list of repositories and get the full data for each one
 function recurseRepos(repoArr, counter){
   if(counter < repoArr.length){
     var recurseUrl = 'https://api.github.com/repos/' + repoArr[counter].full_name;
@@ -179,7 +211,9 @@ function recurseRepos(repoArr, counter){
   }
 }
 
+//get the commit statistics for each repo on our list
 function recurseRepoStats(repoArr, counter){
+    //until we've gotten through each repo we just keep calling for more data
     if(counter< repoArr.length){
         var repoStats = 'https://api.github.com/repos/' + repoArr[counter].full_name + '/stats/participation';
         $.ajax(repoStats).done(function(data){
@@ -188,35 +222,46 @@ function recurseRepoStats(repoArr, counter){
           recurseRepoStats(repoArr, counter);
         });
     }else{
+      //once we've gone through everything
       //set our global repo variable we pass into the Handlebars template
-      reposReturned = repoArr;
-      reposReturned.forEach(function( item ){
-        var dateFrom = timeSince( item.updated_at );
-        item.time = dateFrom[0];
-        item.period = dateFrom[1];
-        item.secondsSince = dateFrom[2];
-      });
-      reposReturned =  _.sortBy(reposReturned, 'secondsSince');
-      //set our global flag to tell other functions we have loaded our data
-      repoLoaded = true;
-      //send our data out to populate the templates
-      drawHeader(userReturn);
-      drawSidebar(userReturn);
-      drawNewRepoModal(userReturn);
-      drawRepos(reposReturned);
-      $('#loading-login').css("bottom", "100%");
-      console.log(userReturn);
-      console.log(reposReturned);
+      drawPage();
+      // console.log(userReturn);
+      // console.log(reposReturned);
     }
 }
 
+//now that all the data is set, we format a few
+//fields, sort and populate the templates
+function drawPage(){
+  reposReturned = repoArr;
+  reposReturned.forEach(function( item ){
+    var dateFrom = timeSince( item.updated_at );
+    item.time = dateFrom[0];
+    item.period = dateFrom[1];
+    item.secondsSince = dateFrom[2];
+  });
+  reposReturned =  _.sortBy(reposReturned, 'secondsSince');
+  //set our global flag to tell other functions we have loaded our data
+  repoLoaded = true;
+  //send our data out to populate the templates
+  drawHeader(userReturn);
+  drawSidebar(userReturn);
+  drawNewRepoModal(userReturn);
+  drawRepos(reposReturned);
+  //hide loading screen
+  $('#loading-login').css("bottom", "100%");
+  //now we wait for an event to trigger!
+}
 
 //------------------------------------------------------------------------------
 //                 TEMPLATE FUNCTIONS CALLED ON AJAX COMPLETION
 //------------------------------------------------------------------------------
 function drawHeader(data){
+  //load template onto page
   var headerHTML = header(data);
   $('header').html(headerHTML);
+
+  //javascript to control dropdowns (done without bootstrap)
   $('#hra-profile, #hra-create-new').click(function(){
     dropDownClick(this);
   });
@@ -224,19 +269,24 @@ function drawHeader(data){
     event.preventDefault();
     $('.bs-example-modal-lg').modal('toggle');
   });
+
+  //handle input if user searches for a new username with top field
   $('#hla-search-bar').on('keyup', function(event){
     if(event.which == 13){
       gitLogin = $(this)[0].value;
       if(gitLogin !== undefined){
         $.ajaxSetup({
           headers: {
-            'Authorization': 'token ' + cache.token
+            'Authorization': 'token ' + cache.token,
+            'Accept': 'application/vnd.github.drax-preview+json'
           }
         });
         verifyLogin('search');
       }
     }
   });
+
+  //handle logout and reset page status to start
   $('#logout').click(function(event){
     event.preventDefault();
     $.ajaxSetup({
@@ -259,6 +309,7 @@ function drawSidebar(data){
 function drawRepos(data){
   var repoHTML = repos({'repos': data});
   $('#repo-listings').html(repoHTML);
+  //show or hide new repo UI button if we are logged in
   if(loggedIn){
     $('#new-repo').css('display', 'inline-block');
   }else{
@@ -266,11 +317,14 @@ function drawRepos(data){
   }
 }
 
+//build the modal window out for new repository form
 function drawNewRepoModal(data){
   var newRepoHTML = newrepo(data);
   $('.modal-content').html(newRepoHTML);
   setDropDownEvents(['gitig', 'lic']);
+  //handle form submission for new repository
   $('#new-repo-submit').click(function(event){
+    //get form values
     var repoName = $('#new-repo-name')[0].value;
     var repoDesc = $('#repo-desc')[0].value;
     var repoPubPriv = $('.new-repo-pub-priv');
@@ -295,6 +349,7 @@ function drawNewRepoModal(data){
       repoLicense = "";
     }
     var newRepoURL = 'https://api.github.com/user/repos';
+    //send POST request to create a new repo
     $.ajax({
       "url": newRepoURL,
       "method": "POST",
@@ -302,6 +357,8 @@ function drawNewRepoModal(data){
       "dataType": "json",
       "data": JSON.stringify({ "name": repoName, "description": repoDesc, "private":repoPubPriv, "auto_init": repoInit, "gitignore_template": repoGitIg, "license_template": repoLicense})
     }).done(function(data){
+      //on successful upload add this repo to our existing list and add it
+      //also send success message to our modal window to alert the user
       newrepoReturned = data;
       drawRepoResult(newrepoReturned);
       var dateFrom = timeSince( newrepoReturned.updated_at );
@@ -312,26 +369,29 @@ function drawNewRepoModal(data){
       reposReturned = _.sortBy(reposReturned, 'secondsSince');
       drawRepos(reposReturned);
     }).fail(function(jqXHR, status, error){
+      //on failure provide message to the user
       newrepoReturned = jqXHR;
       drawRepoResult(newrepoReturned);
     });
   });
 }
 
+//populate new repo modal with success or failure info
 function drawRepoResult(data){
   var repoSuccessHTML = reposuccess(data);
   $('.modal-content').html(repoSuccessHTML);
 }
 
+//------------------------------------------------------------------------------
+//              UTILITY FUNCTIONS USED TO FORMAT OR SORT DATA
+//------------------------------------------------------------------------------
+//format Joined on Date for Profile Sidebar
 function prettyDate(data){
   var date = new Date(data.created_at);
   data.pretty_date = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
   return data;
 }
 
-//------------------------------------------------------------------------------
-//              UTILITY FUNCTIONS USED TO FORMAT OR SORT DATA
-//------------------------------------------------------------------------------
 //from stackoverflow by rob updating from Sky Sanders
 //http://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site/23259289#23259289
 function timeSince(date) {
@@ -372,6 +432,8 @@ function timeSince(date) {
     }
     return [interval, intervalType, seconds];
 }
+
+//provide sort value for filtering repos with sort bar
 function switchSort(sort, item){
   switch (sort) {
     case 'public':
@@ -430,6 +492,7 @@ $('.repo-sort-option').click(function(event){
       drawRepos(sortRepos);
     }
 });
+
 //EVENT HANDLER FOR SEARCH INPUT ON THE REPO TAB
 $('#repo-search-input').on('keyup', function(event){
   var searchTerm = event.currentTarget.value;
@@ -451,26 +514,22 @@ $('#repo-search-input').on('keyup', function(event){
 });
 //EVENT HANDLER TO RESET NEW REPO FORM ON OPENING
 $('#new-repo').click(function(event){
-  if(userReturn){
+  if(userReturn && loggedIn){
     drawNewRepoModal(userReturn);
   }
 });
-
 
 //------------------------------------------------------------------------------
 //                     EVENT HANDLER CALLBACK FUNCTIONS
 //      THESE ARE CALLED ONCE OUR TEMPLATES LOAD THE RESPECTIVE ELEMENTS
 //------------------------------------------------------------------------------
-function clearHover(clicked){
-  $(clicked).find('.hra-hover-box').css({'display': 'none'});
-}
+
 function dropDownClick( clicked ){
   if($(clicked).find('ul').css('display') == 'none'){
     $(clicked).find('ul').css({'display': 'inline-block'});
   }else{
     $(clicked).find('ul').css({'display': 'none'});
   }
-  clearHover(clicked);
 }
 //EVENT HANDLER TO POPULATE AND LISTEN FOR DROPDOWNS USED
 //ON THE NEW REPOSITORY FORM
