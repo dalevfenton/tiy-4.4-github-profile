@@ -15,7 +15,7 @@ var bootstrap = require('bootstrap-sass/assets/javascripts/bootstrap.min.js');
 //------------------------------------------------------------------------------
 //CACHED DATA USED DURING DEVELOPMENT SO WE DON'T HAVE TO CALL THE API
 //EVERY TIME WE UPDATE CSS OR HTML FILES
-// var cache = require('./cached-data.js');
+var cache = require('./cached-data.js');
 //SETUP GLOBAL VARIABLES
 // var githubtoken = cache.token;
 // var userReturn = cache.userReturn;
@@ -150,7 +150,7 @@ function buildPage(){
 }
 
 //get the list of gitignore templates to populate the new repo form
-function getGitIngonores(){
+function getGitIgnores(){
   var gitUrl = 'https://api.github.com/gitignore/templates';
   $.ajax(gitUrl).done(function(data){
     gitignores = data;
@@ -224,6 +224,7 @@ function recurseRepoStats(repoArr, counter){
     }else{
       //once we've gone through everything
       //set our global repo variable we pass into the Handlebars template
+      reposReturned = repoArr;
       drawPage();
       // console.log(userReturn);
       // console.log(reposReturned);
@@ -233,7 +234,6 @@ function recurseRepoStats(repoArr, counter){
 //now that all the data is set, we format a few
 //fields, sort and populate the templates
 function drawPage(){
-  reposReturned = repoArr;
   reposReturned.forEach(function( item ){
     var dateFrom = timeSince( item.updated_at );
     item.time = dateFrom[0];

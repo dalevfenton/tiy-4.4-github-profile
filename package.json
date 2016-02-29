@@ -46,7 +46,8 @@
     "watch:js": "watchify app/scripts/index.js -o dist/js/bundle.js",
     "watch:html": "npm run html && onchange 'app/**/*.html' -- npm run html",
     "server": "live-server --browser='Google Chrome.app' --open='dist' --port='9000'",
-    "watch": "parallelshell 'npm run watch:html' 'npm run watch:scss' 'npm run watch:js' 'npm run server'"
+    "gatekeeper": "node gatekeeper/server.js",
+    "watch": "parallelshell 'npm run watch:html' 'npm run watch:scss' 'npm run watch:js' 'npm run server' 'npm run gatekeeper'"
   },
   "browserify": {
     "transform": [ "browserify-shim", "browserify-handlebars", "strictify" ]
