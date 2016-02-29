@@ -12,7 +12,7 @@
         <li class="icon text-trunc" id="work">{{user_work}}</li>
     {{/unless}}
     {{#if url}}
-      <li class="icon text-trunc" id="site"><a href="{{user_site}}">{{url}}</a></li>
+      <li class="icon text-trunc" id="site"><a href="{{blog}}" target="_blank">{{blog}}</a></li>
     {{/if}}
     {{#if location}}
       <li class="icon text-trunc" id="location">{{location}}</li>
@@ -24,9 +24,9 @@
 </div>
 <div id="user-social">
   <ul>
-    <li class="user-social-item"><a href="{{following_url}}"><span class="user-socnum">{{followers}}</span><div class="user-socname">Followers</div></a></li>
-    <li class="user-social-item"><a href="{{starred_url}}"><span class="user-socnum">{{public_gists}}</span><div class="user-socname">Starred</div></a></li>
-    <li class="user-social-item"><a href="{{followers_url}}"><span class="user-socnum">{{following}}</span><div class="user-socname">Following</div></a></li>
+    <li class="user-social-item"><a href="https://github.com/{{login}}/followers" target="_blank"><span class="user-socnum">{{followers}}</span><div class="user-socname">Followers</div></a></li>
+    <li class="user-social-item"><a href="https://github.com/stars" target="_blank"><span class="user-socnum">{{public_gists}}</span><div class="user-socname">Starred</div></a></li>
+    <li class="user-social-item"><a href="https://github.com/{{login}}/following" target="_blank"><span class="user-socnum">{{following}}</span><div class="user-socname">Following</div></a></li>
   </ul>
 </div>
 {{#if organizations}}
@@ -34,7 +34,7 @@
   <h3 class="orgs-title">Organizations</h3>
   <ul>
     {{#each organizations}}
-      <li class="user-org"><a href="{{url}}"><img class="org-img" src="{{avatar_url}}" alt="{{login}}"></a></li>
+      <li class="user-org"><a href="https://github.com/{{login}}" target="_blank"><img class="org-img" src="{{avatar_url}}"></a></li>
     {{/each}}
   </ul>
 </div>

@@ -26,6 +26,17 @@ var clientID = cache.clientID;
 var clientSecret = cache.clientSecret;
 var oAuthURL = 'https://github.com/login/oauth/authorize';
 var loggedIn = false;
+var gitLogin;
+var userURL, orgsUrl;
+//------------------------------------------------------------------------------
+//                        TEMPLATE IMPORTS
+//------------------------------------------------------------------------------
+var loading = require('./loading.handlebars');
+var header = require('./header.handlebars');
+var sidebar = require('./sidebar.handlebars');
+var repos = require('./repos.handlebars');
+var newrepo = require('./newrepo.handlebars');
+var reposuccess = require('./reposuccess.handlebars');
 
 //HANDLEBARS TEMPLATE HELPER FUNCTIONS
 Handlebars.registerHelper('scale-bar', function( object, scale ) {
@@ -35,130 +46,104 @@ Handlebars.registerHelper('percent-offset', function(object) {
   return new Handlebars.SafeString( object / 52 * 100 );
 });
 
-if(document.URL.indexOf('?code=') > -1){
-  var code = document.URL.match(/\?code=(.*)/);
-  $.getJSON('http://localhost:9999/authenticate/'+code[1], function(data) {
-    // SET OUR AUTH TOKEN IN THE HEADER OF OUR API REQUESTS
-    if(typeof(data.token) !== "undefined"){
-      $.ajaxSetup({
-        headers: {
-          'Authorization': 'token ' + data.token
-        }
-      });
-      // console.log(window);
-      $('.loading-login-inner').html('<h2>Loading Your Page This Can Take a Few Seconds</h2><i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>');
-      buildPage();
-    }
-  });
-}else{
-  oAuthLogin();
+
+initializePage();
+
+//function that we invoke on pageload to control flow from here on out
+function initializePage(){
+  if(document.URL.indexOf('?code=') > -1){
+    var code = document.URL.match(/\?code=(.*)/);
+    $.getJSON('http://localhost:9999/authenticate/'+code[1], function(data) {
+      // SET OUR AUTH TOKEN IN THE HEADER OF OUR API REQUESTS
+      if(typeof(data.token) !== "undefined"){
+        loggedIn = true;
+        $.ajaxSetup({
+          headers: {
+            'Authorization': 'token ' + data.token
+          }
+        });
+        $('.loading-login-inner').html('<h2>Loading Your Page This Can Take a Few Seconds</h2><i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>');
+        //set new repo button to active
+        buildPage();
+      }
+    });
+  }else{
+    //event handler to listen for login button
+    drawLoading();
+  }
 }
 
-function oAuthLogin(){
+//setup the initial loading window if we aren't authenticated
+//the event handler here initializes the page load if we are passed a username
+function drawLoading( ){
+  $('.loading-login-inner').html( loading );
+  $('#user-search-submit').click(function(event){
+    //handle unauthenticated user search
+    gitLogin = $('#user-search-input')[0].value;
+    if(gitLogin !== undefined){
+      $.ajaxSetup({
+        headers: {
+          'Authorization': 'token ' + cache.token
+        }
+      });
+      verifyLogin('login');
+      // $('.loading-login-inner').html('<h2>Loading Your Page This Can Take a Few Seconds</h2><i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>');
+      // //set new repo to inactive
+      // buildPage();
+    }
+  });
   $('#github-login').click(function(event){
     window.location.replace('https://github.com/login/oauth/authorize?client_id='+clientID+'&scope=repo');
   });
 }
 
-//------------------------------------------------------------------------------
-//                        TEMPLATE IMPORTS
-//------------------------------------------------------------------------------
-var header = require('./header.handlebars');
-var sidebar = require('./sidebar.handlebars');
-var repos = require('./repos.handlebars');
-var newrepo = require('./newrepo.handlebars');
-var reposuccess = require('./reposuccess.handlebars');
 
-//------------------------------------------------------------------------------
-//         EVENT HANDLERS WITH ELEMENTS NOT LOADED BY TEMPLATES
-//------------------------------------------------------------------------------
-//EVENT HANDLER FOR THE SORT OPTIONS OF THE REPO TAB
-$('.repo-sort-option').click(function(event){
-    event.preventDefault();
-    repoSort = event.currentTarget.attributes.value.value;
-    if(repoLoaded){
-      if(repoSort === undefined || repoSort == 'all' ){
-         sortRepos = _.sortBy(reposReturned, 'secondsSince');
-      }else{
-        sortRepos = _.filter(reposReturned, function(item){
-          return switchSort(repoSort, item);
-        });
-      }
-      drawRepos(sortRepos);
-    }
-});
-//EVENT HANDLER FOR SEARCH INPUT ON THE REPO TAB
-$('#repo-search-input').on('keyup', function(event){
-  var searchTerm = event.currentTarget.value;
-  if(repoLoaded){
-    if(sortRepos !== undefined){
-      searchRepos = sortRepos;
-    }else{
-      searchRepos = reposReturned;
-    }
-    var searchedRepos = _.filter(searchRepos, function(item){
-      if(item.name.indexOf(searchTerm) > -1){
-        return true;
-      }else{
-        return false;
-      }
-    });
-    drawRepos(searchedRepos);
-  }
-});
-//EVENT HANDLER TO RESET NEW REPO FORM ON OPENING
-$('#new-repo').click(function(event){
-  if(userReturn){
-    drawNewRepoModal(userReturn);
-  }
-});
-
-
-//------------------------------------------------------------------------------
-//                     EVENT HANDLER CALLBACK FUNCTIONS
-//      THESE ARE CALLED ONCE OUR TEMPLATES LOAD THE RESPECTIVE ELEMENTS
-//------------------------------------------------------------------------------
-function clearHover(clicked){
-  $(clicked).find('.hra-hover-box').css({'display': 'none'});
-}
-function dropDownClick( clicked ){
-  if($(clicked).find('ul').css('display') == 'none'){
-    $(clicked).find('ul').css({'display': 'inline-block'});
-  }else{
-    $(clicked).find('ul').css({'display': 'none'});
-  }
-  clearHover(clicked);
-}
-//EVENT HANDLER TO POPULATE AND LISTEN FOR DROPDOWNS USED
-//ON THE NEW REPOSITORY FORM
-function setDropDownEvents(array){
-  array.forEach(function(item){
-    var strOne = '#repo-' + item + '-list li a';
-    $(strOne).click(function(event){
-      var valSelected = event.currentTarget.attributes.value.value;
-      var valDisplay = event.currentTarget.text;
-      $(strOne).removeClass('dd-selected');
-      $(event.currentTarget).addClass('dd-selected');
-      $('#repo-' + item + ' .repo-' + item + '-display').text(valDisplay);
-      $('#repo-' + item ).attr( item, valSelected );
-    });
-  });
-}
 //------------------------------------------------------------------------------
 //               BUILD OUR DATA OBJECTS FROM THE API ENDPOINTS
 //                  AND THEN LOAD OUR PAGE FROM TEMPLATES
 //------------------------------------------------------------------------------
+function verifyLogin( source ){
+  userURL = 'https://api.github.com/users/' + gitLogin;
+  $.ajax(userURL).done(function(data){
+    $('#loading-login').css("bottom", "0");
+    $('.loading-login-inner').html('<h2>Loading Your Page This Can Take a Few Seconds</h2><i class="fa fa-refresh fa-spin fa-3x fa-fw margin-bottom"></i>');
+    //set new repo to inactive
+    buildPage();
+  }).fail(function(jqXHR, status, error){
+    // console.log(jqXHR);
+    // console.log(status);
+    // console.log(error);
+    newrepoReturned = jqXHR;
+    if(source == 'search'){
+      // console.log($('#hla-search-bar'));
+      document.querySelector('#hla-search-bar').value = 'Not A Valid Login';
+    }else if( source == 'login'){
+      // console.log($('#user-search-input'));
+      document.querySelector('#user-search-input').value = 'Not A Valid Login';
+    }
+  });
+}
+
+
 //entry point for our page once we have an auth token
 function buildPage(){
-  var authURL = 'https://api.github.com/user';
-  $.ajax(authURL).done(function(data){
+  if(loggedIn){
+    userURL = 'https://api.github.com/user';
+  }else{
+    userURL = 'https://api.github.com/users/' + gitLogin;
+  }
+  $.ajax(userURL).done(function(data){
     userReturn = prettyDate(data);
     getOrgs();  //ajax call to organizations api endpoint
   });
 }
 
 function getOrgs(){
-  var orgsUrl = 'https://api.github.com/user/orgs';
+  if(loggedIn){
+    orgsUrl = 'https://api.github.com/user/orgs';
+  }else{
+    orgsUrl = 'https://api.github.com/users/' + gitLogin + '/orgs';
+  }
   $.ajax(orgsUrl).done(function(data){
     userReturn.organizations = data;
     getRepos();  //ajax call to repos api endpoint
@@ -169,13 +154,6 @@ function getRepos(){
   var repoUrl = 'https://api.github.com/users/' + userReturn.login + '/repos';
   $.ajax(repoUrl).done(function(data){
     reposReturned = data;
-    reposReturned.forEach(function( item ){
-      var dateFrom = timeSince( item.updated_at );
-      item.time = dateFrom[0];
-      item.period = dateFrom[1];
-      item.secondsSince = dateFrom[2];
-    });
-    reposReturned =  _.sortBy(reposReturned, 'secondsSince');
     recurseRepos(reposReturned, 0);
     //recurseRepos recursively does an ajax call to the individual
     //repo api endpoint for each repo we retrieved to get more indepth
@@ -212,6 +190,13 @@ function recurseRepoStats(repoArr, counter){
     }else{
       //set our global repo variable we pass into the Handlebars template
       reposReturned = repoArr;
+      reposReturned.forEach(function( item ){
+        var dateFrom = timeSince( item.updated_at );
+        item.time = dateFrom[0];
+        item.period = dateFrom[1];
+        item.secondsSince = dateFrom[2];
+      });
+      reposReturned =  _.sortBy(reposReturned, 'secondsSince');
       //set our global flag to tell other functions we have loaded our data
       repoLoaded = true;
       //send our data out to populate the templates
@@ -220,63 +205,10 @@ function recurseRepoStats(repoArr, counter){
       drawNewRepoModal(userReturn);
       drawRepos(reposReturned);
       $('#loading-login').css("bottom", "100%");
+      console.log(userReturn);
+      console.log(reposReturned);
     }
 }
-
-// var url = 'https://api.github.com/users/dalevfenton';
-// if(source==='api'){
-//   $.ajax(url).
-//     done(function(data){
-//       userReturn = data;
-//       userReturn = prettyDate(userReturn);
-//       drawHeader(userReturn);
-//       var orgsUrl = 'https://api.github.com/user/orgs';
-//       $.ajax(orgsUrl).done(function(data){
-//         user_info.organizations = data;
-//         // console.log(user_info);
-//         drawSidebar(userReturn);
-//         drawNewRepoModal(userReturn);
-//         var repoUrl = 'https://api.github.com/users/' + userReturn.login + '/repos';
-//         $.ajax(repoUrl).done(function(data){
-//           var index = 0;
-//           // console.log(data);
-//           reposReturned = data;
-//           reposReturned.forEach(function( item ){
-//             var dateFrom = timeSince( item.updated_at );
-//             item.time = dateFrom[0];
-//             item.period = dateFrom[1];
-//             item.secondsSince = dateFrom[2];
-//           });
-//           reposReturned =  _.sortBy(reposReturned, 'secondsSince');
-//           recurseRepos(reposReturned, index);
-//         });
-//       });
-//   })
-//   .fail(function(jqXHR, status, error){
-//     console.log(jqXHR);
-//     console.log(status);
-//     console.log(error);
-//   });
-// }else{
-//   userReturn = prettyDate(userReturn);
-//   reposReturned.forEach(function( item ){
-//     var dateFrom = timeSince( item.updated_at );
-//     item.time = dateFrom[0];
-//     item.period = dateFrom[1];
-//     item.secondsSince = dateFrom[2];
-//   });
-//   reposReturned = _.sortBy(reposReturned, 'secondsSince');
-//   repoLoaded = true;
-//   drawHeader(userReturn);
-//   drawSidebar(userReturn);
-//   drawRepos(reposReturned);
-//   userReturn.licenses = licenses;
-//   userReturn.gitignores = gitignores;
-//   drawNewRepoModal(userReturn);
-//   //EVENT HANDLER FOR GITHUB LOGIN WITH OAUTH
-//   oAuthLogin();
-//
-// }
 
 
 //------------------------------------------------------------------------------
@@ -288,24 +220,32 @@ function drawHeader(data){
   $('#hra-profile, #hra-create-new').click(function(){
     dropDownClick(this);
   });
-  // $('#hra-profile, #hra-create-new').on('mouseover', function(){
-  //     $(this).find('.hra-hover-box').css({'display': 'block'});
-  // });
-  // $('#hra-profile, #hra-create-new').on('mouseout', function(){
-  //     clearHover(this);
-  // });
   $('#new-repo-dd').click(function(event){
     event.preventDefault();
     $('.bs-example-modal-lg').modal('toggle');
+  });
+  $('#hla-search-bar').on('keyup', function(event){
+    if(event.which == 13){
+      gitLogin = $(this)[0].value;
+      if(gitLogin !== undefined){
+        $.ajaxSetup({
+          headers: {
+            'Authorization': 'token ' + cache.token
+          }
+        });
+        verifyLogin('search');
+      }
+    }
   });
   $('#logout').click(function(event){
     event.preventDefault();
     $.ajaxSetup({
       headers: {}
     });
-    $('.loading-login-inner').html('<button type="button" id="github-login" class="btn btn-success"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Login To Your GitHub Account</button>');
     $('#loading-login').css("bottom", "0");
-    oAuthLogin();
+    loggedIn = false;
+    gitLogin = '';
+    drawLoading();
   });
 }
 
@@ -319,6 +259,11 @@ function drawSidebar(data){
 function drawRepos(data){
   var repoHTML = repos({'repos': data});
   $('#repo-listings').html(repoHTML);
+  if(loggedIn){
+    $('#new-repo').css('display', 'inline-block');
+  }else{
+    $('#new-repo').css('display', 'none');
+  }
 }
 
 function drawNewRepoModal(data){
@@ -368,9 +313,6 @@ function drawNewRepoModal(data){
       drawRepos(reposReturned);
     }).fail(function(jqXHR, status, error){
       newrepoReturned = jqXHR;
-      // console.log(jqXHR);
-      // console.log(status);
-      // console.log(error);
       drawRepoResult(newrepoReturned);
     });
   });
@@ -468,4 +410,80 @@ function switchSort(sort, item){
       }
       break;
   }
+}
+
+//------------------------------------------------------------------------------
+//         EVENT HANDLERS WITH ELEMENTS NOT LOADED BY TEMPLATES
+//------------------------------------------------------------------------------
+//EVENT HANDLER FOR THE SORT OPTIONS OF THE REPO TAB
+$('.repo-sort-option').click(function(event){
+    event.preventDefault();
+    repoSort = event.currentTarget.attributes.value.value;
+    if(repoLoaded){
+      if(repoSort === undefined || repoSort == 'all' ){
+         sortRepos = _.sortBy(reposReturned, 'secondsSince');
+      }else{
+        sortRepos = _.filter(reposReturned, function(item){
+          return switchSort(repoSort, item);
+        });
+      }
+      drawRepos(sortRepos);
+    }
+});
+//EVENT HANDLER FOR SEARCH INPUT ON THE REPO TAB
+$('#repo-search-input').on('keyup', function(event){
+  var searchTerm = event.currentTarget.value;
+  if(repoLoaded){
+    if(sortRepos !== undefined){
+      searchRepos = sortRepos;
+    }else{
+      searchRepos = reposReturned;
+    }
+    var searchedRepos = _.filter(searchRepos, function(item){
+      if(item.name.indexOf(searchTerm) > -1){
+        return true;
+      }else{
+        return false;
+      }
+    });
+    drawRepos(searchedRepos);
+  }
+});
+//EVENT HANDLER TO RESET NEW REPO FORM ON OPENING
+$('#new-repo').click(function(event){
+  if(userReturn){
+    drawNewRepoModal(userReturn);
+  }
+});
+
+
+//------------------------------------------------------------------------------
+//                     EVENT HANDLER CALLBACK FUNCTIONS
+//      THESE ARE CALLED ONCE OUR TEMPLATES LOAD THE RESPECTIVE ELEMENTS
+//------------------------------------------------------------------------------
+function clearHover(clicked){
+  $(clicked).find('.hra-hover-box').css({'display': 'none'});
+}
+function dropDownClick( clicked ){
+  if($(clicked).find('ul').css('display') == 'none'){
+    $(clicked).find('ul').css({'display': 'inline-block'});
+  }else{
+    $(clicked).find('ul').css({'display': 'none'});
+  }
+  clearHover(clicked);
+}
+//EVENT HANDLER TO POPULATE AND LISTEN FOR DROPDOWNS USED
+//ON THE NEW REPOSITORY FORM
+function setDropDownEvents(array){
+  array.forEach(function(item){
+    var strOne = '#repo-' + item + '-list li a';
+    $(strOne).click(function(event){
+      var valSelected = event.currentTarget.attributes.value.value;
+      var valDisplay = event.currentTarget.text;
+      $(strOne).removeClass('dd-selected');
+      $(event.currentTarget).addClass('dd-selected');
+      $('#repo-' + item + ' .repo-' + item + '-display').text(valDisplay);
+      $('#repo-' + item ).attr( item, valSelected );
+    });
+  });
 }
