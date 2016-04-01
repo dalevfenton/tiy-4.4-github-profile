@@ -13,15 +13,9 @@
       <div class="updated">Updated {{time}} {{period}} ago</div>
       <div class="repo-graph-holder">
         {{#each participation}}
-          {{!-- {{if all}} --}}
-            {{!-- {{#each this}}
-              <div class="bar bar-{{@index}} bar-all-part" style="left:{{percent-offset @index}}%; height:{{times-ten this}}px;"></div>
-            {{/each}}
-          {{else}} --}}
             {{#each this}}
               <div class="bar bar-{{@index}} bar-loop-{{@../index}} bar-owner-part" style="left:{{percent-offset @index}}%; height:{{scale-bar this 1.25}}px;"></div>
             {{/each}}
-          {{!-- {{/if}} --}}
         {{/each}}
       </div>
     </div>

@@ -15,19 +15,11 @@ var bootstrap = require('bootstrap-sass/assets/javascripts/bootstrap.min.js');
 //------------------------------------------------------------------------------
 //CACHED DATA USED DURING DEVELOPMENT SO WE DON'T HAVE TO CALL THE API
 //EVERY TIME WE UPDATE CSS OR HTML FILES
-var cache = require('./cached-data.js');
+// var cache = require('./keys.js');
 //SETUP GLOBAL VARIABLES
-// var githubtoken = cache.token;
-// var userReturn = cache.userReturn;
-// var reposReturned = cache.repos;
-// var newrepoReturned = cache.newrepo;
-// var gitignores = cache.gitignores;
-// var licenses = cache.licenses;
 var githubtoken, userReturn, reposReturned, newrepoReturned, gitignores, licenses;
 var monthNames = ["January", "February", "March","April", "May", "June","July", "August", "September","October", "November", "December"];
 var orgs, user_info, repoSort, repoLoaded, data, sortRepos, searchRepos;
-var clientID = cache.clientID;
-var clientSecret = cache.clientSecret;
 var oAuthURL = 'https://github.com/login/oauth/authorize';
 var loggedIn = false;
 var gitLogin, userURL, orgsUrl;
@@ -59,14 +51,25 @@ function initializePage(){
   //detect if we have gotten a stage one code from github to auth with
   if(document.URL.indexOf('?code=') > -1){
     var code = document.URL.match(/\?code=(.*)/);
-    //go to gatekeeper to get the auth token for our api calls
-    $.getJSON('http://localhost:9999/authenticate/'+code[1], function(data) {
-      // SET OUR AUTH TOKEN IN THE HEADER OF OUR API REQUESTS
-      if(typeof(data.token) !== "undefined"){
+
+    var herokuServer = 'http://github-clone.herokuapp.com/api';
+    $.ajax({
+      url: herokuServer,
+      data: {
+        token: code[1]
+      }
+    }).then(function(data){
+      var pairs = data.split('&');
+      var result = {};
+      pairs.forEach(function(pair) {
+          pair = pair.split('=');
+          result[pair[0]] = decodeURIComponent(pair[1] || '');
+      });
+      if(typeof(result.access_token) !== "undefined"){
         loggedIn = true;
         $.ajaxSetup({
           headers: {
-            'Authorization': 'token ' + data.token,
+            'Authorization': 'token ' + result.access_token,
             'Accept': 'application/vnd.github.drax-preview+json'
           }
         });
@@ -75,7 +78,11 @@ function initializePage(){
         //start the chain of api calls
         buildPage();
       }
+    }, function(error){
+      console.log('error with authentication');
+      console.log(error);
     });
+
   }else{
     //if we don't have a code to process through, then show the login page with
     //event handler to listen for login button or user search
@@ -96,7 +103,7 @@ function drawLoading( ){
     if(gitLogin !== undefined){
       $.ajaxSetup({
         headers: {
-          'Authorization': 'token ' + cache.token,
+          // 'Authorization': 'token ' + cache.token,
           'Accept': 'application/vnd.github.drax-preview+json'
         }
       });
@@ -106,7 +113,12 @@ function drawLoading( ){
 
   //go to github to get stage 1 OAuth code
   $('#github-login').click(function(event){
-    window.location.replace('https://github.com/login/oauth/authorize?client_id='+clientID+'&scope=repo');
+    $.ajax('http://github-clone.herokuapp.com/client-id').then(function(data){
+      var client_id = data;
+      window.location.replace('https://github.com/login/oauth/authorize?client_id='+client_id+'&scope=repo');
+    }, function(error){
+      console.log('error getting client ID', error);
+    })
   });
 }
 
@@ -153,7 +165,7 @@ function buildPage(){
 function getGitIgnores(){
   var gitUrl = 'https://api.github.com/gitignore/templates';
   $.ajax(gitUrl).done(function(data){
-    gitignores = data;
+    userReturn.gitignores = data;
     getLicenses();
   });
 }
@@ -162,7 +174,7 @@ function getGitIgnores(){
 function getLicenses(){
   var licenseUrl = 'https://api.github.com/licenses';
   $.ajax(licenseUrl).done(function(data){
-    licenses = data;
+    userReturn.licenses = data;
     getOrgs();
   });
 }

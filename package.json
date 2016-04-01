@@ -42,12 +42,13 @@
     "build:images": "npm run imagemin && npm run favicon",
     "build": "npm run html && npm run build:css && npm run build:js && npm run build:images",
 
+    "deploy": "npm run build && git-directory-deploy",
+
     "watch:scss": "sass --watch app/styles:dist/css",
     "watch:js": "watchify app/scripts/index.js -o dist/js/bundle.js",
     "watch:html": "npm run html && onchange 'app/**/*.html' -- npm run html",
     "server": "live-server --browser='Google Chrome.app' --open='dist' --port='9000'",
-    "gatekeeper": "node gatekeeper/server.js",
-    "watch": "parallelshell 'npm run watch:html' 'npm run watch:scss' 'npm run watch:js' 'npm run server' 'npm run gatekeeper'"
+    "watch": "parallelshell 'npm run watch:html' 'npm run watch:scss' 'npm run watch:js' 'npm run server'"
   },
   "browserify": {
     "transform": [ "browserify-shim", "browserify-handlebars", "strictify" ]
