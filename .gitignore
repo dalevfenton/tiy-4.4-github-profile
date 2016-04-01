@@ -2,5 +2,4 @@ node_modules
 .tmp
 .sass-cache
 .DS_Store
-/dist
 /app/scripts/cached-data.js
