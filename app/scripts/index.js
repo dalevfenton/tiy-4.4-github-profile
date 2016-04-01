@@ -289,7 +289,6 @@ function drawHeader(data){
       if(gitLogin !== undefined){
         $.ajaxSetup({
           headers: {
-            'Authorization': 'token ' + cache.token,
             'Accept': 'application/vnd.github.drax-preview+json'
           }
         });
