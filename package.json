@@ -27,29 +27,31 @@
   },
   "scripts": {
     "html": "cp app/*.html dist/",
+      "fonts": "cp app/fonts/* dist/fonts/",
+      "scss": "sass --style compressed --update app/styles:dist/css",
+      "autoprefixer": "postcss -u autoprefixer -r dist/css/*.css",
 
-    "scss": "sass --style compressed --update app/styles:dist/css",
-    "autoprefixer": "postcss -u autoprefixer -r dist/css/*.css",
+      "lint": "eslint app/scripts",
+      "browserify": "browserify app/scripts/index.js | uglifyjs -c > dist/js/bundle.js",
 
-    "lint": "eslint app/scripts",
-    "browserify": "browserify app/scripts/index.js | uglifyjs -c > dist/js/bundle.js",
+      "imagemin": "imagemin app/images dist/images -p",
+      "favicon": "cp app/favicon.ico dist/",
 
-    "imagemin": "imagemin app/images dist/images -p",
-    "favicon": "cp app/favicon.ico dist/",
+      "build:css": "npm run scss && npm run autoprefixer",
+      "build:js": "npm run lint && npm run browserify",
+      "build:images": "npm run imagemin && npm run favicon",
+      "build": "npm run html && npm run build:css && npm run build:js && npm run build:images",
 
-    "build:css": "npm run scss && npm run autoprefixer",
-    "build:js": "npm run lint && npm run browserify",
-    "build:images": "npm run imagemin && npm run favicon",
-    "build": "npm run html && npm run build:css && npm run build:js && npm run build:images",
+      "deploy": "npm run build && git-directory-deploy --directory dist/ && npm run deploy:done",
+      "deploy:done": "say -v Karen 'Your project is now on gh pages. Do not forget to add the link to the re po description.'",
 
-    "deploy": "npm run build && git-directory-deploy",
-
-    "watch:scss": "sass --watch app/styles:dist/css",
-    "watch:js": "watchify app/scripts/index.js -o dist/js/bundle.js",
-    "watch:html": "npm run html && onchange 'app/**/*.html' -- npm run html",
-    "server": "live-server --browser='Google Chrome.app' --open='dist' --port='9000'",
-    "watch": "parallelshell 'npm run watch:html' 'npm run watch:scss' 'npm run watch:js' 'npm run server'"
-  },
+      "watch:fonts": "npm run fonts && onchange 'app/fonts/*' -- npm run fonts",
+      "watch:scss": "sass --watch app/styles:dist/css",
+      "watch:js": "watchify app/scripts/index.js -o dist/js/bundle.js",
+      "watch:html": "npm run html && onchange 'app/**/*.html' -- npm run html",
+      "watch:images": "npm run build:images && onchange 'app/images/*' -- npm run build:images",
+      "server": "live-server --open='dist' --browser='Google Chrome.app' --port='9001' ",
+      "watch": "parallelshell 'npm run watch:html' 'npm run watch:fonts' 'npm run watch:scss' 'npm run watch:images' 'npm run watch:js' 'npm run server'"  },
   "browserify": {
     "transform": [ "browserify-shim", "browserify-handlebars", "strictify" ]
   },
